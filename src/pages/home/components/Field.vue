@@ -26,6 +26,7 @@ const id = uniqueId()
     font-size: 12px;
     font-weight: 400;
     color: rgba(0,0,0,0.54);
+    margin-bottom: 2px;
   }
 
   & ::v-deep(input) {
@@ -33,8 +34,8 @@ const id = uniqueId()
     border-bottom: solid 1px rgba(0,0,0,0.26);
     font-size: 16px;
     outline: none;
-    margin-bottom: 1px;
-    padding-block: 2px;
+    margin-bottom: 2px;
+    padding-bottom: 2px;
   }
 
   &:focus-within {
@@ -44,7 +45,7 @@ const id = uniqueId()
 
     & ::v-deep(input) {
       border-bottom: solid 2px #2196F3;
-      margin-bottom: 0px;
+      margin-bottom: 1px;
     }
   }
 }

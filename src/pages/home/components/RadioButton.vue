@@ -1,6 +1,6 @@
 <template>
-  <div class="field">
-    <input :id="id" v-model="value" type="checkbox" :readonly="readonly">
+  <div class="radiobutton">
+    <input :id="id" v-model="modelValue" :value="value" type="radio">
     <label :for="id">{{ label }}</label>
   </div>
 </template>
@@ -9,19 +9,17 @@
 import { uniqueId } from '@/composables/id'
 
 defineProps({
+  value: { type: String, default: '' },
   label: { type: String, default: 'Label' },
-  readonly: { type: Boolean, default: false },
 })
 
-const value = defineModel({ type: Boolean, default: false })
-
+const modelValue = defineModel({ type: String })
 const id = uniqueId()
 </script>
 
 <style lang="postcss" scoped>
-.field {
+.radiobutton {
   display: flex;
-  align-items: center;
   gap: 24px;
 
   label {

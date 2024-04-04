@@ -2,7 +2,7 @@
   <Field v-bind="$attrs" :label="label">
     <template #aux><slot /></template>
     <template #default="{ id }">
-      <input :id="id" v-model.number="value" type="number" :placeholder="label" :readonly="readonly">
+      <input :id="id" v-model.number="value" type="number" :placeholder="placeholder" :readonly="readonly">
     </template>
   </Field>
 </template>
@@ -12,6 +12,7 @@ import Field from './Field.vue'
 
 defineProps({
   label: { type: String, default: 'Label' },
+  placeholder: { type: String, default: '' },
   readonly: { type: Boolean, default: false },
 })
 

@@ -1,3 +1,10 @@
 <template>
-  <h2>Buttons</h2>
+  <Panel>
+    <SectionHeader>Buttons</SectionHeader>
+  </Panel>
 </template>
+
+<script lang="ts" setup>
+import Panel from '@/components/Panel.vue'
+import SectionHeader from './components/SectionHeader.vue'
+</script>

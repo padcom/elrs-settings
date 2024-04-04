@@ -1,9 +1,7 @@
 <template>
   <div class="tabs">
     <TabSelector />
-    <Panel>
-      <slot />
-    </Panel>
+    <slot />
   </div>
 </template>
 
@@ -17,7 +15,6 @@ export interface Tab {
 <script lang="ts" setup>
 import { ref, provide } from 'vue'
 
-import Panel from '@/components/Panel.vue'
 import TabSelector from './TabSelector.vue'
 
 const tabs = ref<Tab[]>([])

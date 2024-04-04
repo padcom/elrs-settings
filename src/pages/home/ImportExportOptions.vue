@@ -1,6 +1,6 @@
 <template>
   <Panel>
-    <SectionHeader>Model options</SectionHeader>
+    <SectionHeader>Import/Export</SectionHeader>
   </Panel>
 </template>
 

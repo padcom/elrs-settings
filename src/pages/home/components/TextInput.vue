@@ -2,7 +2,7 @@
   <Field v-bind="$attrs" :label="label">
     <template #aux><slot /></template>
     <template #default="{ id }">
-      <input :id="id" v-model="value" :placeholder="placeholder" :readonly="readonly">
+      <input :id="id" v-model="value" :placeholder="placeholder" :readonly="readonly" :type="type">
     </template>
   </Field>
 </template>
@@ -14,6 +14,7 @@ defineProps({
   label: { type: String, default: 'Label' },
   placeholder: { type: String, default: '' },
   readonly: { type: Boolean, default: false },
+  type: { type: String, default: 'text' },
 })
 
 const value = defineModel({ type: String, default: '' })

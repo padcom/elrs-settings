@@ -1,5 +1,5 @@
 <template>
-  <div class="options">
+  <Panel class="options">
     <SectionHeader>Runtime Options</SectionHeader>
     <p>
       This form <strong>overrides</strong> the options provided when the firmware
@@ -16,9 +16,16 @@
       <ArrayInput :model-value="config.config.uid" :label="uidLabel.description" :readonly="true">
         <div><Tag :fg="uidLabel.fg" :bg="uidLabel.bg">{{ uidLabel.type }}</Tag></div>
       </ArrayInput>
-      <NumericInput v-model="config.options['wifi-on-interval']" label="WiFi 'auto on' interval in seconds (leave blank to disable)" />
-      <NumericInput v-model="config.options['tlm-interval']" label="TLM report interval (ms)" />
-      <NumericInput v-model="config.options['fan-runtime']" label="Fan runtime (s)" />
+      <NumericInput v-model="config.options['wifi-on-interval']"
+        label="WiFi 'auto on' interval in seconds (leave blank to disable)"
+        placeholder="Disabled"
+      />
+      <NumericInput v-model="config.options['tlm-interval']"
+        label="TLM report interval (ms)"
+      />
+      <NumericInput v-model="config.options['fan-runtime']"
+        label="Fan runtime (s)"
+      />
       <Checkbox v-model="config.options['is-airport']" label="Use as AirPort Serial device" />
       <NumericInput v-model="config.options['airport-uart-baud']" label="AirPort UART baud" />
 
@@ -26,13 +33,14 @@
         <Button @click="save">Save</Button>
       </div>
     </div>
-  </div>
+  </Panel>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref } from 'vue'
 
 import SectionHeader from './components/SectionHeader.vue'
+import Panel from '@/components/Panel.vue'
 import Tag from './components/Tag.vue'
 import TextInput from './components/TextInput.vue'
 import ArrayInput from './components/ArrayInput.vue'
