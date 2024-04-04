@@ -1,0 +1,36 @@
+{
+  "cSpell.language": "en,de,pl",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": "explicit"
+  },
+  "testing.automaticallyOpenPeekView": "never",
+  "files.associations": {
+      "**/dist/**/*.css": "css",
+      "*.css": "postcss",
+  },
+  "cSpell.words": [
+    "atten",
+    "compl",
+    "CRSF",
+    "customised",
+    "DACWRITE",
+    "dcdc",
+    "efuse",
+    "GPIO",
+    "gsensor",
+    "highpower",
+    "isgrb",
+    "ledidx",
+    "mosi",
+    "pdet",
+    "reflashed",
+    "rxen",
+    "Semtech",
+    "ssid",
+    "tacho",
+    "txen",
+    "uidtype",
+    "vref",
+    "wifi"
+  ],
+}

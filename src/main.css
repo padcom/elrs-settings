@@ -1,0 +1,19 @@
+@import "@padcom/nano-css-reset";
+
+html, body {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+}
+
+strong {
+  font-weight: 600;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+}
+
+input::placeholder {
+  color: rgba(0,0,0,0.26);
+}

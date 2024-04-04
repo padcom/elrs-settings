@@ -1,0 +1,20 @@
+<template>
+  <Field v-bind="$attrs" :label="label">
+    <template #aux><slot /></template>
+    <template #default="{ id }">
+      <input :id="id" v-model="value" :placeholder="placeholder" :readonly="readonly">
+    </template>
+  </Field>
+</template>
+
+<script lang="ts" setup>
+import Field from './Field.vue'
+
+defineProps({
+  label: { type: String, default: 'Label' },
+  placeholder: { type: String, default: '' },
+  readonly: { type: Boolean, default: false },
+})
+
+const value = defineModel({ type: String, default: '' })
+</script>
