@@ -6,12 +6,13 @@
     <h2><strong>Firmware Rev.</strong> {{ version }} {{ config?.config.reg_domain }}</h2>
   </header>
 
-  <Navigation />
-  <main>
-    <Panel>
-      <RouterView />
-    </Panel>
-  </main>
+  <nav>
+    <Navigation />
+  </nav>
+
+  <Panel is="main">
+    <RouterView />
+  </Panel>
 
   <Footer />
 

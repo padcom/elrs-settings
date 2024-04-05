@@ -1,8 +1,14 @@
 <template>
-  <div class="panel">
+  <component :is="is" class="panel">
     <slot />
-  </div>
+  </component>
 </template>
+
+<script lang="ts" setup>
+defineProps({
+  is: { type: String, default: 'div' },
+})
+</script>
 
 <style lang="postcss" scoped>
 .panel {
