@@ -9,6 +9,7 @@
 export interface Tab {
   id: string
   title: string
+  emit: (e: 'selected') => void
 }
 </script>
 
@@ -17,11 +18,15 @@ import { ref, provide } from 'vue'
 
 import TabSelector from './TabSelector.vue'
 
+const emit = defineEmits<{(e: 'tab-selected', tab: Tab): void}>()
+
 const tabs = ref<Tab[]>([])
 const selectedTab = ref<Tab>()
 
 function selectTab(tab: Tab) {
   selectedTab.value = tab
+  tab.emit('selected')
+  emit('tab-selected', tab)
 }
 
 function addTab(tab: Tab) {

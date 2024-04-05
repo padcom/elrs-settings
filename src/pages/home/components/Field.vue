@@ -38,6 +38,11 @@ const id = uniqueId()
     padding-bottom: 2px;
   }
 
+  /* autoprefixer: ignore next */
+  & ::v-deep(input::placeholder) {
+    color: rgba(0,0,0,0.26);
+  }
+
   &:focus-within {
     label {
       color: #2196F3;

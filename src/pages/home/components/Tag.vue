@@ -13,8 +13,9 @@ defineProps({
 
 <style lang="postcss" scoped>
 .tag {
-  border-radius: 4px;
-  padding: 4px 8px;
+  border-radius: 9999999px;
+  padding: 0px 8px;
   font-weight: 600;
+  width: max-content;
 }
 </style>

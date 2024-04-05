@@ -7,7 +7,7 @@
       <Options />
       <ImportExportOptions />
     </Tab>
-    <Tab title="WiFi">
+    <Tab title="WiFi" @selected="autoPopulateWifiNetworks && loadWiFiNetworks()">
       <WiFi />
     </Tab>
     <Tab v-if="isTx && false" title="Buttons">
@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { ref, onMounted } from 'vue'
 
 import Tabs from './home/components/Tabs.vue'
 import Tab from './home/components/Tab.vue'
@@ -32,9 +32,12 @@ import Buttons from './home/Buttons.vue'
 import FirmwareUpdate from './home/FirmwareUpdate.vue'
 import { useConfig } from '@/composables/config'
 import { useBuildOptions } from '@/composables/build'
+import { useNetworks } from '@/composables/networks'
 
 const { load } = useConfig()
 const { isTx } = useBuildOptions()
+const { load: loadWiFiNetworks } = useNetworks()
+const autoPopulateWifiNetworks = ref(false)
 
 onMounted(load)
 </script>

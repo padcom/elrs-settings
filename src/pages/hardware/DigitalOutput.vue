@@ -1,7 +1,7 @@
 <template>
   <Field v-bind="$attrs">
     <template #icon>
-      <img class="icon" :src="icon" title="Digital output">
+      <Icon />
     </template>
 
     <template #default="{ id }">
@@ -12,7 +12,7 @@
 
 <script lang="ts" setup>
 import Field from './Field.vue'
-import icon from '@/assets/icon-output.svg?inline'
+import Icon from '@/assets/icon-output.svg?component'
 
 const value = defineModel({ type: Number })
 </script>

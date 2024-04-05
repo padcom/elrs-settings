@@ -1,31 +1,41 @@
 <template>
   <header>
-    <img :src="logo" width="250" height="250">
+    <Logo />
     <h1>ExpressLRS</h1>
     <h2>{{ config?.config.product_name }}</h2>
     <h2><strong>Firmware Rev.</strong> {{ version }} {{ config?.config.reg_domain }}</h2>
   </header>
+
+  <Navigation />
   <main>
     <Panel>
       <RouterView />
     </Panel>
   </main>
 
-  <ul>
-    <li><RouterLink to="/">Settings</RouterLink></li>
-    <li><RouterLink to="/hardware">Hardware</RouterLink></li>
-  </ul>
+  <Footer />
+
+  <Alert ref="alert" />
 </template>
 
 <script lang="ts" setup>
+import { ref } from 'vue'
+
+import Logo from '@/assets/logo.svg?component'
+import Navigation from '@/components/Navigation.vue'
+import Panel from '@/components/Panel.vue'
+import Footer from '@/components/Footer.vue'
+import Alert from '@/components/Alert.vue'
+
 import { useBuildOptions } from './composables/build'
 import { useConfig } from './composables/config'
-
-import logo from '@/assets/logo.svg?inline'
-import Panel from '@/components/Panel.vue'
+import { provideAlert } from './composables/alert'
 
 const { version } = useBuildOptions()
 const { config } = useConfig()
+const alert = ref<InstanceType<typeof Alert>>()
+
+provideAlert(alert)
 </script>
 
 <style lang="postcss" scoped>

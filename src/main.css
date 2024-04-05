@@ -1,19 +1,20 @@
 @import "@padcom/nano-css-reset";
 
 html, body {
+  --clr-error: #d85261;
+  --clr-success: #2dd284;
+  --clr-warning: #fada5e;
+  --clr-info: #88cef7;
+  --clr-question: #779ecb;
+  --clr-btn-primary: #2196F3;
+  --clr-btn-secondary: #4f4f4f;
+  --clr-btn-tertiary: #f8f8f8;
+  --clr-btn-danger: #F44336;
+
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
 }
 
 strong {
   font-weight: 600;
-}
-
-.icon {
-  width: 24px;
-  height: 24px;
-}
-
-input::placeholder {
-  color: rgba(0,0,0,0.26);
 }

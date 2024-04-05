@@ -14,11 +14,13 @@ const props = defineProps({
   title: { type: String, default: 'Tab' },
 })
 
+const emit = defineEmits<{(e: 'selected'): void}>()
+
 const addTab = inject('addTab') as (tab: Tab) => void
 const selectedTab = inject('selectedTab') as Ref<Tab>
 
 onMounted(() => {
-  addTab({ title: props.title, id: props.id })
+  addTab({ title: props.title, id: props.id, emit })
 })
 </script>
 

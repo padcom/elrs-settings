@@ -14,7 +14,7 @@
     <div v-if="config?.config" class="inputs">
       <TextInput v-model="bindingPhrase" label="Binding Phrase" placeholder="Binding Phrase" />
       <ArrayInput :model-value="config.config.uid" :label="uidLabel.description" :readonly="true">
-        <div><Tag :fg="uidLabel.fg" :bg="uidLabel.bg">{{ uidLabel.type }}</Tag></div>
+        <Tag :fg="uidLabel.fg" :bg="uidLabel.bg">{{ uidLabel.type }}</Tag>
       </ArrayInput>
       <NumericInput v-model="config.options['wifi-on-interval']"
         label="WiFi 'auto on' interval in seconds (leave blank to disable)"
@@ -30,14 +30,19 @@
       <NumericInput v-model="config.options['airport-uart-baud']" label="AirPort UART baud" />
 
       <div class="actions">
-        <Button @click="save">Save</Button>
+        <Button type="primary" @click="save">
+          Save
+        </Button>
+        <Button v-if="config.options.customised" type="danger" small @click="reset">
+          Reset runtime options to defaults
+        </Button>
       </div>
     </div>
   </Panel>
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue'
+import { computed, ref, watch } from 'vue'
 
 import SectionHeader from './components/SectionHeader.vue'
 import Panel from '@/components/Panel.vue'
@@ -46,18 +51,64 @@ import TextInput from './components/TextInput.vue'
 import ArrayInput from './components/ArrayInput.vue'
 import NumericInput from './components/NumericInput.vue'
 import Checkbox from './components/Checkbox.vue'
-import Button from './components/Button.vue'
+import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'
 import { useBuildOptions } from '@/composables/build'
+import { useAlert } from '@/composables/alert'
+// @ts-ignore This import is JS-only
+import { uid } from '@/lib/uid'
 
 const bindingPhrase = ref('')
-const { config } = useConfig()
+const { config, originalUID, originalUIDType } = useConfig()
+const { targetBaseUrl } = useBuildOptions()
+const { question, error, info } = useAlert()
 
-function save() {
-  console.log('Saving...')
+watch(bindingPhrase, newValue => {
+  if (config.value) {
+    if (newValue) {
+      config.value.config.uid = uid(newValue)
+      config.value.config.uidtype = 'Modified'
+    } else {
+      config.value.config.uid = originalUID.value
+      config.value.config.uidtype = originalUIDType.value
+    }
+  }
+})
+
+async function save() {
+  const body = JSON.stringify({
+    ...config.value?.options,
+    customised: true,
+    uid: config.value?.config.uid,
+  })
+
+  const response = await fetch(`${targetBaseUrl.value}/options.json`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+  })
+
+  if (response.ok) {
+    if (await question('Update Succeeded', 'Reboot to take effect', 'Reboot', 'Cancel') !== 'cancel') {
+      fetch(`${targetBaseUrl.value}/reboot`, { method: 'POST' })
+    }
+  } else {
+    error('Error saving changes', response.statusText)
+  }
 }
 
+async function reset() {
+  const response = await fetch(`${targetBaseUrl.value}/reset?options`, { method: 'POST' })
+
+  if (response.ok) {
+    info('Reset Runtime Options', 'Reset complete, rebooting...')
+  } else {
+    error('Reset Runtime Options', 'An error occurred resetting runtime options')
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-shadow
 function isEmptyUID(uid: number[]) {
   return !uid || uid.length !== 6 || uid.join(',').endsWith('0,0,0,0')
 }
@@ -122,6 +173,9 @@ const uidLabel = computed(() => {
 }
 
 .actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   margin-top: 8px;
 }
 </style>

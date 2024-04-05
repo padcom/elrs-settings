@@ -8,7 +8,6 @@
       "vite/client",
       "./node_modules/vite-plugin-eslint/dist/index.d.ts",
       "vite-svg-loader",
-      "./src/build-options.d.ts",
     ]
   }
 }

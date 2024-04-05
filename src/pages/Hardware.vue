@@ -1,5 +1,5 @@
 <template>
-  <h1>Hardware</h1>
+  <SectionHeader>Hardware</SectionHeader>
 
   <div v-if="hardware" class="hardware">
     <Section title="CRSF Serial Pins">
@@ -487,6 +487,7 @@ import PowerSelect from './hardware/PowerSelect.vue'
 import ScreenTypeSelect from './hardware/ScreenTypeSelect.vue'
 import PowerLevelControlSelect from './hardware/PowerLevelControlSelect.vue'
 import VBatAttenuationSelect from './hardware/VBatAttenuationSelect.vue'
+import SectionHeader from './home/components/SectionHeader.vue'
 
 const { hardware, load } = useHardware()
 const { isTx } = useBuildOptions()
@@ -499,5 +500,6 @@ onMounted(load)
   display: grid;
   row-gap: 0.5rem;
   grid-template-columns: max-content max-content max-content 1fr;
+  margin-top: 16px;
 }
 </style>

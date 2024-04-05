@@ -8,11 +8,15 @@ import { useOptions } from './options'
 export const useConfig = singleton(() => {
   const { targetBaseUrl } = useBuildOptions()
   const config = ref<Config>()
+  const originalUID = ref<number[]>([])
+  const originalUIDType = ref<string>('Flashed')
 
   async function load() {
     const response = await fetch(`${targetBaseUrl.value}/config`)
     if (response.ok) {
       config.value = await response.json()
+      originalUID.value = config.value?.config.uid || []
+      originalUIDType.value = config.value?.config.uidtype || 'Flashed'
       const { options } = useOptions()
       options.value = config.value?.options
     } else {
@@ -20,5 +24,5 @@ export const useConfig = singleton(() => {
     }
   }
 
-  return { config, load }
+  return { config, load, originalUID, originalUIDType }
 })

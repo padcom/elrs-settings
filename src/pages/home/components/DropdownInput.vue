@@ -2,7 +2,7 @@
   <Field v-bind="$attrs" :label="label" class="dropdown">
     <template #aux><slot /></template>
     <template #default="{ id }">
-      <input :id="id" v-model="value" type="string" :placeholder="placeholder" :readonly="readonly" class="dropdown-input"
+      <input :id="id" v-model="value" type="text" :placeholder="placeholder" :readonly="readonly" class="dropdown-input"
         @focus="showOptions = true"
         @blur="showOptions = false"
       >

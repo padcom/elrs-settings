@@ -3,15 +3,17 @@
 /* eslint-disable no-await-in-loop */
 import { ref } from 'vue'
 import { useBuildOptions } from './build'
+import { singleton } from '@/lib/singleton'
+import { sleep } from '@/lib/sleep'
 
-const sleep = (ms: number) => new Promise(resolve => { setTimeout(resolve, ms) })
-
-export function useNetworks() {
+export const useNetworks = singleton(() => {
   const { targetBaseUrl } = useBuildOptions()
   const networks = ref<string[]>([])
   const loading = ref(false)
 
   async function load() {
+    if (loading.value) return
+
     loading.value = true
 
     while (true) {
@@ -28,8 +30,9 @@ export function useNetworks() {
       await sleep(2000)
     }
 
+    // eslint-disable-next-line require-atomic-updates
     loading.value = false
   }
 
   return { networks, load, loading }
-}
+})

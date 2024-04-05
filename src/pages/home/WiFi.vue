@@ -15,31 +15,36 @@
         <RadioButton v-model="action" value="forget" label="Forget Home network setting, always use AP mode" />
       </div>
       <br>
-      <DropdownInput v-if="showWiFiControls" v-model="ssid" label="WiFi SSID" placeholder="SSID" :options="networks" />
+      <DropdownInput v-if="showWiFiControls" v-model="ssid" class="ssid" label="WiFi SSID" placeholder="SSID"
+        :options="networks"
+        :class="{ loading }"
+      />
       <TextInput v-if="showWiFiControls" v-model="password" label="WiFi password" type="password" />
 
       <div class="actions">
-        <Button>Confirm</Button>
+        <Button @click="save">Confirm</Button>
       </div>
     </div>
   </Panel>
 </template>
 
 <script lang="ts" setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 
 import Panel from '@/components/Panel.vue'
 import SectionHeader from './components/SectionHeader.vue'
 import RadioButton from './components/RadioButton.vue'
 import TextInput from './components/TextInput.vue'
 import DropdownInput from './components/DropdownInput.vue'
-import Button from './components/Button.vue'
+import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'
 import { useNetworks } from '@/composables/networks'
+import { useBuildOptions } from '@/composables/build'
+import { useAlert } from '@/composables/alert'
 
 const { config } = useConfig()
-const { networks, load } = useNetworks()
+const { networks, loading } = useNetworks()
 const action = ref('new-network')
 const ssid = ref('')
 const password = ref('')
@@ -54,7 +59,67 @@ const title = computed(() => {
   }
 })
 
-onMounted(load)
+const { targetBaseUrl } = useBuildOptions()
+const { info, error } = useAlert()
+
+// eslint-disable-next-line @typescript-eslint/no-shadow
+async function connectToNetwork(ssid: string, password: string, temporary: boolean) {
+  const body = new FormData()
+  body.append('networktype', temporary ? '1' : '0')
+  body.append('network', ssid)
+  body.append('password', password)
+
+  const url = temporary ? 'sethome' : 'sethome?save'
+
+  const response = await fetch(`${targetBaseUrl.value}/${url}`, { method: 'POST', body })
+  if (response.ok) {
+    const message = await response.text()
+    info('Start Access Point', message)
+  } else {
+    const message = await response.text()
+    error('Start Access Point', message)
+  }
+}
+
+async function startAccessPoint() {
+  const response = await fetch(`${targetBaseUrl.value}/access`, { method: 'POST' })
+  if (response.ok) {
+    const message = await response.text()
+    info('Start Access Point', message)
+  } else {
+    const message = await response.text()
+    error('Start Access Point', message)
+  }
+}
+
+async function forgetNetworkAndStartAccessPoint() {
+  const response = await fetch(`${targetBaseUrl.value}/forget`, { method: 'POST' })
+  if (response.ok) {
+    const message = await response.text()
+    info('Forget Home Network', message)
+  } else {
+    const message = await response.text()
+    error('Forget Home Network', message)
+  }
+}
+
+// eslint-disable-next-line complexity
+function save() {
+  switch (action.value) {
+    case 'new-network':
+      connectToNetwork(ssid.value, password.value, false)
+      break
+    case 'one-time':
+      connectToNetwork(ssid.value, password.value, true)
+      break
+    case 'start-ap':
+      startAccessPoint()
+      break
+    case 'forget':
+      forgetNetworkAndStartAccessPoint()
+      break
+  }
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -72,6 +137,12 @@ onMounted(load)
 
   .actions {
     margin-top: 24px;
+  }
+
+  .ssid.loading ::v-deep(input) {
+    background: url('@/assets/wifi.svg');
+    background-repeat: no-repeat;
+    background-position: right;
   }
 }
 </style>
