@@ -61,7 +61,6 @@ import { uid } from '@/lib/uid'
 
 const bindingPhrase = ref('')
 const { config, originalUID, originalUIDType } = useConfig()
-const { targetBaseUrl } = useBuildOptions()
 const { question, error, info } = useAlert()
 
 watch(bindingPhrase, newValue => {
@@ -83,7 +82,7 @@ async function save() {
     uid: config.value?.config.uid,
   })
 
-  const response = await fetch(`${targetBaseUrl.value}/options.json`, {
+  const response = await fetch(`/options.json`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body,
@@ -91,7 +90,7 @@ async function save() {
 
   if (response.ok) {
     if (await question('Update Succeeded', 'Reboot to take effect', 'Reboot', 'Cancel') !== 'cancel') {
-      fetch(`${targetBaseUrl.value}/reboot`, { method: 'POST' })
+      fetch(`/reboot`, { method: 'POST' })
     }
   } else {
     error('Error saving changes', response.statusText)
@@ -99,7 +98,7 @@ async function save() {
 }
 
 async function reset() {
-  const response = await fetch(`${targetBaseUrl.value}/reset?options`, { method: 'POST' })
+  const response = await fetch(`/reset?options`, { method: 'POST' })
 
   if (response.ok) {
     info('Reset Runtime Options', 'Reset complete, rebooting...')

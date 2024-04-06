@@ -40,7 +40,6 @@ import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'
 import { useNetworks } from '@/composables/networks'
-import { useBuildOptions } from '@/composables/build'
 import { useAlert } from '@/composables/alert'
 
 const { config } = useConfig()
@@ -59,7 +58,6 @@ const title = computed(() => {
   }
 })
 
-const { targetBaseUrl } = useBuildOptions()
 const { info, error } = useAlert()
 
 // eslint-disable-next-line @typescript-eslint/no-shadow
@@ -69,9 +67,9 @@ async function connectToNetwork(ssid: string, password: string, temporary: boole
   body.append('network', ssid)
   body.append('password', password)
 
-  const url = temporary ? 'sethome' : 'sethome?save'
+  const url = temporary ? '/sethome' : '/sethome?save'
 
-  const response = await fetch(`${targetBaseUrl.value}/${url}`, { method: 'POST', body })
+  const response = await fetch(url, { method: 'POST', body })
   if (response.ok) {
     const message = await response.text()
     info('Start Access Point', message)
@@ -82,7 +80,7 @@ async function connectToNetwork(ssid: string, password: string, temporary: boole
 }
 
 async function startAccessPoint() {
-  const response = await fetch(`${targetBaseUrl.value}/access`, { method: 'POST' })
+  const response = await fetch(`/access`, { method: 'POST' })
   if (response.ok) {
     const message = await response.text()
     info('Start Access Point', message)
@@ -93,7 +91,7 @@ async function startAccessPoint() {
 }
 
 async function forgetNetworkAndStartAccessPoint() {
-  const response = await fetch(`${targetBaseUrl.value}/forget`, { method: 'POST' })
+  const response = await fetch(`/forget`, { method: 'POST' })
   if (response.ok) {
     const message = await response.text()
     info('Forget Home Network', message)

@@ -5,7 +5,7 @@
       Choose a file to update module firmware. Select the correct .bin file for {{ platform }}
       otherwise a bad flash may occur. If this happens you will need to recover via USB/Serial.
       You may also download the
-      <a :href="`${targetBaseUrl}/firmware.bin`" title="Click to download firmware">currently running firmware</a>.
+      <a href="/firmware.bin" title="Click to download firmware">currently running firmware</a>.
     </p>
 
     <div class="upload">
@@ -29,7 +29,7 @@ import { uploadFile } from '@/lib/file-upload'
 import { ticker } from '@/lib/ticker'
 import { useAlert } from '@/composables/alert'
 
-const { platform, targetBaseUrl } = useBuildOptions()
+const { platform } = useBuildOptions()
 const progressBar = ref<HTMLProgressElement>()
 
 interface FileUploadResult {
@@ -43,7 +43,7 @@ const { question, success, error } = useAlert()
 async function upload(files: FileList) {
   if (files.length === 1) {
     try {
-      const result = await uploadFile<FileUploadResult>(`${targetBaseUrl.value}/update`, 'POST', files[0], e => {
+      const result = await uploadFile<FileUploadResult>(`/update`, 'POST', files[0], e => {
         progressBar.value!.value = e.loaded * 100 / e.total
       })
 
@@ -62,7 +62,7 @@ async function upload(files: FileList) {
           if (await question('Targets Mismatch', result.msg || 'What do we do now?', 'Flash anyway', 'Cancel') !== 'cancel') {
             const body = new FormData()
             body.append('action', 'confirm')
-            await fetch(`${targetBaseUrl.value}/forceupdate`, { method: 'POST', body })
+            await fetch(`/forceupdate`, { method: 'POST', body })
           }
           break
         case 'error':

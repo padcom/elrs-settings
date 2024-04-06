@@ -16,6 +16,7 @@
     "DACWRITE",
     "dcdc",
     "efuse",
+    "ELRS",
     "expresslrs",
     "Ferrão",
     "forceupdate",

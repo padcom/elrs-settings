@@ -2,17 +2,15 @@ import { ref } from 'vue'
 
 import type { Config } from '@/types'
 import { singleton } from '@/lib/singleton'
-import { useBuildOptions } from './build'
 import { useOptions } from './options'
 
 export const useConfig = singleton(() => {
-  const { targetBaseUrl } = useBuildOptions()
   const config = ref<Config>()
   const originalUID = ref<number[]>([])
   const originalUIDType = ref<string>('Flashed')
 
   async function load() {
-    const response = await fetch(`${targetBaseUrl.value}/config`)
+    const response = await fetch(`/config`)
     if (response.ok) {
       config.value = await response.json()
       originalUID.value = config.value?.config.uid || []

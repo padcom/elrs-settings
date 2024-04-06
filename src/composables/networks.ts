@@ -2,12 +2,10 @@
 /* eslint-disable max-depth */
 /* eslint-disable no-await-in-loop */
 import { ref } from 'vue'
-import { useBuildOptions } from './build'
 import { singleton } from '@/lib/singleton'
 import { sleep } from '@/lib/sleep'
 
 export const useNetworks = singleton(() => {
-  const { targetBaseUrl } = useBuildOptions()
   const networks = ref<string[]>([])
   const loading = ref(false)
 
@@ -18,7 +16,7 @@ export const useNetworks = singleton(() => {
 
     while (true) {
       try {
-        const response = await fetch(`${targetBaseUrl.value}/networks.json`)
+        const response = await fetch(`/networks.json`)
         if (response.ok && response.status === 200) {
           networks.value = await response.json()
           break

@@ -16,15 +16,13 @@ import SectionHeader from './components/SectionHeader.vue'
 import Button from '@/components/Button.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
-import { useBuildOptions } from '@/composables/build'
 import { useAlert } from '@/composables/alert'
 import { downloadBlob } from '@/lib/file-download'
 
-const { targetBaseUrl } = useBuildOptions()
 const { show } = useAlert()
 
 async function download() {
-  const response = await fetch(`${targetBaseUrl.value}/config?export`)
+  const response = await fetch(`/config?export`)
   if (response.ok) {
     const data = await response.blob()
     downloadBlob('models.json', new Blob([data]))
