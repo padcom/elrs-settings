@@ -5,14 +5,17 @@
     </template>
 
     <template #default="{ id }">
-      <input :id="id" v-model="value" type="number" size="3">
+      <input :id="id" v-model="editableValue" type="number" size="3">
     </template>
   </Field>
 </template>
 
 <script lang="ts" setup>
+import { numericEditableValue } from '@/composables/editable-value'
 import Field from './Field.vue'
 import Icon from '@/assets/icon-pwm.svg?component'
 
 const value = defineModel({ type: Number })
+
+const editableValue = numericEditableValue(value)
 </script>

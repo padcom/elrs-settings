@@ -1,27 +1,20 @@
 <template>
   <Field v-bind="$attrs">
-    <template #icon>
-      <Icon />
-    </template>
-
     <template #default="{ id }">
-      <input :id="id" v-model="editableValue" type="number" size="3">
+      <input :id="id" v-model.number="editableValue" type="text" :size="size">
     </template>
   </Field>
 </template>
 
 <script lang="ts" setup>
-import Field from './Field.vue'
-import Icon from '@/assets/icon-input.svg?component'
 import { numericEditableValue } from '@/composables/editable-value'
+import Field from './Field.vue'
+
+defineProps({
+  size: { type: Number, default: 40 },
+})
 
 const value = defineModel({ type: Number })
 
 const editableValue = numericEditableValue(value)
 </script>
-
-<style lang="postcss" scoped>
-input {
-  width: 5rem;
-}
-</style>

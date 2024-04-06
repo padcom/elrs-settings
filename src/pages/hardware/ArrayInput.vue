@@ -7,17 +7,10 @@
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue'
 import Field from './Field.vue'
+import { arrayEditableValue } from '@/composables/editable-value'
 
 const value = defineModel({ type: Array, default: () => [] })
 
-const editableValue = computed({
-  get(): string {
-    return value.value.join(',')
-  },
-  set(newValue: string) {
-    value.value = newValue.split(',')
-  },
-})
+const editableValue = arrayEditableValue(value)
 </script>

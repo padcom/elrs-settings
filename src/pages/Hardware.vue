@@ -313,7 +313,7 @@
         label="Enable Backpack"
         description="If a TX backpack is connected"
       />
-      <TextInput v-model="hardware.debug_backpack_baud"
+      <NumberInput v-model="hardware.debug_backpack_baud"
         :size="10"
         label="Baud Rate"
         description="Baud rate used to communicate to the backpack (normally 460800)"
@@ -334,7 +334,7 @@
         label="EN pin"
         description="Pin connected to EN pin on backpack ESP8285, allows passthrough flashing"
       />
-      <TextInput v-model="hardware.passthrough_baud"
+      <NumberInput v-model="hardware.passthrough_baud"
         :size="7"
         label="Passthrough baud"
         description="Baud rate to flash the backpack ESP8285 (default is to use the baud rate above)"
@@ -465,6 +465,10 @@
         description="I2C data pin used to communicate with I2C devices"
       />
     </Section>
+
+    <div class="actions">
+      <Button @click="save">Save target configuration</Button>
+    </div>
   </div>
 </template>
 
@@ -481,6 +485,7 @@ import DigitalInputOutput from './hardware/DigitalInputOutput.vue'
 import Checkbox from './hardware/Checkbox.vue'
 import ArrayInput from './hardware/ArrayInput.vue'
 import TextInput from './hardware/TextInput.vue'
+import NumberInput from './hardware/NumberInput.vue'
 import PwmOutput from './hardware/PwmOutput.vue'
 import PwmArrayInput from './hardware/PwmArrayInput.vue'
 import PowerSelect from './hardware/PowerSelect.vue'
@@ -488,8 +493,9 @@ import ScreenTypeSelect from './hardware/ScreenTypeSelect.vue'
 import PowerLevelControlSelect from './hardware/PowerLevelControlSelect.vue'
 import VBatAttenuationSelect from './hardware/VBatAttenuationSelect.vue'
 import SectionHeader from './home/components/SectionHeader.vue'
+import Button from '@/components/Button.vue'
 
-const { hardware, load } = useHardware()
+const { hardware, load, save } = useHardware()
 const { isTx } = useBuildOptions()
 
 onMounted(load)
