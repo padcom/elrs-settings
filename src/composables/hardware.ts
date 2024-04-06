@@ -32,9 +32,11 @@ export const useHardware = singleton(() => {
 
     if (response.ok) {
       hardware.value = await response.json()
-    }
 
-    return true
+      return true
+    } else {
+      return false
+    }
   }
 
   return { hardware, load, save }
