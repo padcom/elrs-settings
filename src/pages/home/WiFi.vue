@@ -21,9 +21,9 @@
       />
       <TextInput v-if="showWiFiControls" v-model="password" label="WiFi password" type="password" />
 
-      <div class="actions">
+      <ActionsPanel>
         <Button @click="save">Confirm</Button>
-      </div>
+      </ActionsPanel>
     </div>
   </Panel>
 </template>
@@ -36,6 +36,7 @@ import SectionHeader from './components/SectionHeader.vue'
 import RadioButton from './components/RadioButton.vue'
 import TextInput from './components/TextInput.vue'
 import DropdownInput from './components/DropdownInput.vue'
+import ActionsPanel from '@/components/ActionsPanel.vue'
 import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'

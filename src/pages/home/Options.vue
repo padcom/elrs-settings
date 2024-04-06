@@ -29,14 +29,14 @@
       <Checkbox v-model="config.options['is-airport']" label="Use as AirPort Serial device" />
       <NumericInput v-model="config.options['airport-uart-baud']" label="AirPort UART baud" />
 
-      <div class="actions">
+      <ActionsPanel>
         <Button type="primary" @click="save">
           Save
         </Button>
         <Button v-if="config.options.customised" type="danger" small @click="reset">
           Reset runtime options to defaults
         </Button>
-      </div>
+      </ActionsPanel>
     </div>
   </Panel>
 </template>
@@ -51,6 +51,7 @@ import TextInput from './components/TextInput.vue'
 import ArrayInput from './components/ArrayInput.vue'
 import NumericInput from './components/NumericInput.vue'
 import Checkbox from './components/Checkbox.vue'
+import ActionsPanel from '@/components/ActionsPanel.vue'
 import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'
@@ -171,12 +172,5 @@ const uidLabel = computed(() => {
   flex-direction: column;
   gap: 16px;
   margin-top: 16px;
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 8px;
 }
 </style>
