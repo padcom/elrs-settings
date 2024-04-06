@@ -1,4 +1,15 @@
 <template>
+  <div v-if="hardware?.customised" class="customised">
+    <p>
+      This hardware configuration has been customised.
+      This can be safely ignored if this is a custom hardware build or for testing purposes.
+    </p>
+    <p>
+      You can <a href="/hardware.json">download</a> the configuration
+      or <a href="#" @click="reset">reset</a> to pre-configured defaults and reboot.
+    </p>
+  </div>
+
   <div v-if="hardware" class="hardware">
     <Section title="CRSF Serial Pins">
       <DigitalInput v-model="hardware.serial_rx"
@@ -466,6 +477,7 @@
 
     <div class="actions">
       <Button @click="save">Save target configuration</Button>
+      <Button type="tertiary" @click="reset">Reset target configuration</Button>
     </div>
   </div>
 </template>
@@ -491,11 +503,31 @@ import ScreenTypeSelect from './hardware/ScreenTypeSelect.vue'
 import PowerLevelControlSelect from './hardware/PowerLevelControlSelect.vue'
 import VBatAttenuationSelect from './hardware/VBatAttenuationSelect.vue'
 import Button from '@/components/Button.vue'
+import { useAlert } from '@/composables/alert'
 
-const { hardware, load, save } = useHardware()
+const { hardware, load, save: saveHardware, reset: resetHardware, reboot } = useHardware()
 const { isTx } = useBuildOptions()
+const { question, info, error } = useAlert()
 
 onMounted(load)
+
+async function save() {
+  if (await saveHardware()) {
+    if (await question('Upload Succeeded', 'Reboot to take effect', 'Reboot', 'Cancel') !== 'cancel') {
+      reboot()
+    }
+  } else {
+    error('Upload Failed', 'Check your connection to the module')
+  }
+}
+
+async function reset() {
+  if (await resetHardware()) {
+    info('Reset Hardware Options', 'Reset complete, rebooting...')
+  } else {
+    error('Reset Hardware Options', 'An error occurred resetting hardware options')
+  }
+}
 </script>
 
 <style lang="postcss" scoped>
@@ -503,6 +535,19 @@ onMounted(load)
   display: grid;
   row-gap: 0.5rem;
   grid-template-columns: max-content max-content max-content 1fr;
+  margin-top: 16px;
+}
+
+.customised {
+  background-color: var(--clr-danger);
+  grid-column: span 1 / -1;
+  padding: 16px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-top: 16px;
 }
 </style>

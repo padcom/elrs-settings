@@ -58,10 +58,12 @@ import { useBuildOptions } from '@/composables/build'
 import { useAlert } from '@/composables/alert'
 // @ts-ignore This import is JS-only
 import { uid } from '@/lib/uid'
+import { useHardware } from '@/composables/hardware'
 
 const bindingPhrase = ref('')
 const { config, originalUID, originalUIDType } = useConfig()
 const { question, error, info } = useAlert()
+const { reboot } = useHardware()
 
 watch(bindingPhrase, newValue => {
   if (config.value) {
@@ -90,7 +92,7 @@ async function save() {
 
   if (response.ok) {
     if (await question('Update Succeeded', 'Reboot to take effect', 'Reboot', 'Cancel') !== 'cancel') {
-      fetch(`/reboot`, { method: 'POST' })
+      reboot()
     }
   } else {
     error('Error saving changes', response.statusText)

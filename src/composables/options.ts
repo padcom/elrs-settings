@@ -37,5 +37,11 @@ export const useOptions = singleton(() => {
     return response.ok
   }
 
-  return { options, load, save }
+  async function reset() {
+    const response = await fetch(`/reset?options`, { method: 'POST' })
+
+    return response.ok
+  }
+
+  return { options, load, save, reset }
 })

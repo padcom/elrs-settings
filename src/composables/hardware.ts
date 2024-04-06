@@ -39,5 +39,17 @@ export const useHardware = singleton(() => {
     }
   }
 
-  return { hardware, load, save }
+  async function reset() {
+    const response = await fetch(`/reset?hardware`, { method: 'POST' })
+
+    return response.ok
+  }
+
+  async function reboot() {
+    const response = await fetch(`/reboot`, { method: 'POST' })
+
+    return response.ok
+  }
+
+  return { hardware, load, save, reset, reboot }
 })
