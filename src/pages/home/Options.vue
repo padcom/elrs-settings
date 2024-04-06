@@ -60,11 +60,13 @@ import { useAlert } from '@/composables/alert'
 // @ts-ignore This import is JS-only
 import { uid } from '@/lib/uid'
 import { useHardware } from '@/composables/hardware'
+import { useOptions } from '@/composables/options'
 
 const bindingPhrase = ref('')
 const { config, originalUID, originalUIDType } = useConfig()
 const { question, error, info } = useAlert()
 const { reboot } = useHardware()
+const { save: saveOptions, reset: resetOptions } = useOptions()
 
 watch(bindingPhrase, newValue => {
   if (config.value) {
@@ -79,31 +81,18 @@ watch(bindingPhrase, newValue => {
 })
 
 async function save() {
-  const body = JSON.stringify({
-    ...config.value?.options,
-    customised: true,
-    uid: config.value?.config.uid,
-  })
-
-  const response = await fetch(`/options.json`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body,
-  })
-
-  if (response.ok) {
+  const result = await saveOptions()
+  if (result.status === 'ok') {
     if (await question('Update Succeeded', 'Reboot to take effect', 'Reboot', 'Cancel') !== 'cancel') {
       reboot()
     }
   } else {
-    error('Error saving changes', response.statusText)
+    error('Error saving changes', result.msg)
   }
 }
 
 async function reset() {
-  const response = await fetch(`/reset?options`, { method: 'POST' })
-
-  if (response.ok) {
+  if (await resetOptions()) {
     info('Reset Runtime Options', 'Reset complete, rebooting...')
   } else {
     error('Reset Runtime Options', 'An error occurred resetting runtime options')

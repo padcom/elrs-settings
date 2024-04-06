@@ -17,18 +17,19 @@ import ActionsPanel from '@/components/ActionsPanel.vue'
 import Button from '@/components/Button.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
+import { useConfig } from '@/composables/config'
 import { useAlert } from '@/composables/alert'
 import { downloadBlob } from '@/lib/file-download'
 
-const { show } = useAlert()
+const { download: downloadConfig } = useConfig()
+const { error } = useAlert()
 
 async function download() {
-  const response = await fetch(`/config?export`)
-  if (response.ok) {
-    const data = await response.blob()
-    downloadBlob('models.json', new Blob([data]))
+  const result = await downloadConfig()
+  if (result.status === 'ok' && result.data) {
+    downloadBlob('models.json', new Blob([result.data]))
   } else {
-    show({ type: 'error', title: 'Error downloading configuration', message: response.statusText })
+    error('Error downloading configuration', result.msg)
   }
 }
 

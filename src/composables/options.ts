@@ -23,18 +23,27 @@ export const useOptions = singleton(() => {
 
   async function save() {
     const { config } = useConfig()
-    if (!config.value || !options.value) return false
+    if (!config.value || !options.value) {
+      return {
+        ok: false,
+        msg: 'Options not loaded',
+      }
+    }
 
     const response = await fetch(`/options.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         ...options.value,
+        customised: true,
         uid: config.value.config.uid,
       }),
     })
 
-    return response.ok
+    return {
+      status: response.ok ? 'ok' : 'error',
+      msg: response.statusText,
+    }
   }
 
   async function reset() {

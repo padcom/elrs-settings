@@ -62,5 +62,9 @@ button {
     box-shadow: 0 0px 2px rgba(0,0,0,0.12),0 2px 2px rgba(0,0,0,0.2);
     opacity: 0.8;
   }
+
+  &[disabled] {
+    background-color: var(--clr-btn-disabled);
+  }
 }
 </style>

@@ -22,7 +22,10 @@
       <TextInput v-if="showWiFiControls" v-model="password" label="WiFi password" type="password" />
 
       <ActionsPanel>
-        <Button @click="save">Confirm</Button>
+        <Button v-if="action === 'new-network'" :disabled="!ssid || !password" @click="connect(ssid, password, false)">Confirm</Button>
+        <Button v-if="action === 'one-time'" :disabled="!ssid || !password" @click="connect(ssid, password, true)">Confirm</Button>
+        <Button v-if="action === 'start-ap'" @click="accessPoint()">Confirm</Button>
+        <Button v-if="action === 'forget'" @click="forget()">Confirm</Button>
       </ActionsPanel>
     </div>
   </Panel>
@@ -42,6 +45,7 @@ import Button from '@/components/Button.vue'
 import { useConfig } from '@/composables/config'
 import { useNetworks } from '@/composables/networks'
 import { useAlert } from '@/composables/alert'
+import { useWiFi } from '@/composables/wifi'
 
 const { config } = useConfig()
 const { networks, loading } = useNetworks()
@@ -59,64 +63,34 @@ const title = computed(() => {
   }
 })
 
+const { connectToNetwork, startAccessPoint, forgetNetworkAndStartAccessPoint } = useWiFi()
 const { info, error } = useAlert()
 
 // eslint-disable-next-line @typescript-eslint/no-shadow
-async function connectToNetwork(ssid: string, password: string, temporary: boolean) {
-  const body = new FormData()
-  body.append('networktype', temporary ? '1' : '0')
-  body.append('network', ssid)
-  body.append('password', password)
-
-  const url = temporary ? '/sethome' : '/sethome?save'
-
-  const response = await fetch(url, { method: 'POST', body })
-  if (response.ok) {
-    const message = await response.text()
-    info('Start Access Point', message)
+async function connect(ssid: string, password: string, temporary: boolean) {
+  const result = await connectToNetwork(ssid, password, temporary)
+  if (result.status === 'ok') {
+    info('Start Access Point', result.msg)
   } else {
-    const message = await response.text()
-    error('Start Access Point', message)
+    error('Start Access Point', result.msg)
   }
 }
 
-async function startAccessPoint() {
-  const response = await fetch(`/access`, { method: 'POST' })
-  if (response.ok) {
-    const message = await response.text()
-    info('Start Access Point', message)
+async function accessPoint() {
+  const result = await startAccessPoint()
+  if (result.status === 'ok') {
+    info('Start Access Point', result.msg)
   } else {
-    const message = await response.text()
-    error('Start Access Point', message)
+    error('Start Access Point', result.msg)
   }
 }
 
-async function forgetNetworkAndStartAccessPoint() {
-  const response = await fetch(`/forget`, { method: 'POST' })
-  if (response.ok) {
-    const message = await response.text()
-    info('Forget Home Network', message)
+async function forget() {
+  const result = await forgetNetworkAndStartAccessPoint()
+  if (result.status === 'ok') {
+    info('Forget Home Network', result.msg)
   } else {
-    const message = await response.text()
-    error('Forget Home Network', message)
-  }
-}
-
-// eslint-disable-next-line complexity
-function save() {
-  switch (action.value) {
-    case 'new-network':
-      connectToNetwork(ssid.value, password.value, false)
-      break
-    case 'one-time':
-      connectToNetwork(ssid.value, password.value, true)
-      break
-    case 'start-ap':
-      startAccessPoint()
-      break
-    case 'forget':
-      forgetNetworkAndStartAccessPoint()
-      break
+    error('Forget Home Network', result.msg)
   }
 }
 </script>

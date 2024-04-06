@@ -4,6 +4,7 @@ import type { Config } from '@/types'
 import { singleton } from '@/lib/singleton'
 import { useOptions } from './options'
 
+// eslint-disable-next-line max-lines-per-function
 export const useConfig = singleton(() => {
   const config = ref<Config>()
   const originalUID = ref<number[]>([])
@@ -22,5 +23,22 @@ export const useConfig = singleton(() => {
     }
   }
 
-  return { config, load, originalUID, originalUIDType }
+  async function download() {
+    const response = await fetch(`/config?export`)
+    if (response.ok) {
+      return {
+        status: 'ok',
+        data: await response.blob(),
+        msg: 'Download completed',
+      }
+    } else {
+      return {
+        status: 'error',
+        data: null,
+        msg: response.statusText,
+      }
+    }
+  }
+
+  return { config, load, download, originalUID, originalUIDType }
 })
