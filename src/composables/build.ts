@@ -5,11 +5,13 @@ export function useBuildOptions() {
   const version = ref(import.meta.env.VITE_VERSION)
   const isTx = ref(import.meta.env.VITE_IS_TX)
   const sx127x = ref(import.meta.env.VITE_SX127X)
+  const hasSubGHz = ref(import.meta.env.HAS_SUB_GHZ)
 
   return {
     platform,
     version,
     isTx,
     sx127x,
+    hasSubGHz,
   }
 }

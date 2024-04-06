@@ -12,7 +12,9 @@
     </p>
 
     <div v-if="config?.config" class="inputs">
-      <TextInput v-model="bindingPhrase" label="Binding Phrase" placeholder="Binding Phrase" />
+      <TextInput v-model="bindingPhrase"
+        label="Binding Phrase" placeholder="Binding Phrase"
+      />
       <ArrayInput :model-value="config.config.uid" :label="uidLabel.description" :readonly="true">
         <Tag :fg="uidLabel.fg" :bg="uidLabel.bg">{{ uidLabel.type }}</Tag>
       </ArrayInput>
@@ -26,8 +28,12 @@
       <NumericInput v-model="config.options['fan-runtime']"
         label="Fan runtime (s)"
       />
-      <Checkbox v-model="config.options['is-airport']" label="Use as AirPort Serial device" />
-      <NumericInput v-model="config.options['airport-uart-baud']" label="AirPort UART baud" />
+      <Checkbox v-model="config.options['is-airport']"
+        label="Use as AirPort Serial device"
+      />
+      <NumericInput v-if="config.options['is-airport']" v-model="config.options['airport-uart-baud']"
+        label="AirPort UART baud"
+      />
 
       <ActionsPanel>
         <Button type="primary" @click="save">

@@ -29,13 +29,22 @@ const id = uniqueId()
     margin-bottom: 2px;
   }
 
-  & ::v-deep(input) {
+  & ::v-deep(input),
+  & ::v-deep(select) {
     border: none;
     border-bottom: solid 1px rgba(0,0,0,0.26);
     font-size: 16px;
     outline: none;
     margin-bottom: 2px;
+    background-color: white;
+  }
+
+  & ::v-deep(input) {
     padding-bottom: 2px;
+  }
+
+  & ::v-deep(select) {
+    padding-bottom: 0px;
   }
 
   /* autoprefixer: ignore next */
@@ -48,7 +57,8 @@ const id = uniqueId()
       color: #2196F3;
     }
 
-    & ::v-deep(input) {
+    & ::v-deep(input),
+    & ::v-deep(select) {
       border-bottom: solid 2px #2196F3;
       margin-bottom: 1px;
     }
