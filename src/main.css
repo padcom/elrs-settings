@@ -20,3 +20,12 @@ html, body {
 strong {
   font-weight: 600;
 }
+
+a {
+  color: var(--clr-btn-primary);
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}

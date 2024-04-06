@@ -15,12 +15,5 @@ defineProps({
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  color: var(--clr-btn-primary);
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 }
 </style>
