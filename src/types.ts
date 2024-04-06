@@ -1,3 +1,5 @@
+export type UID = number[]
+
 export interface BuildOptions {
   'wifi-on-interval': number
   'tlm-interval': number
@@ -11,7 +13,7 @@ export interface BuildOptions {
 }
 
 export interface RuntimeOptions {
-  'uid': number[]
+  'uid': UID
   'ssid': string
   'mode': string
   'product_name': string

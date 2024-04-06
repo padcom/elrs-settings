@@ -57,8 +57,7 @@ import Button from '@/components/Button.vue'
 import { useConfig } from '@/composables/config'
 import { useBuildOptions } from '@/composables/build'
 import { useAlert } from '@/composables/alert'
-// @ts-ignore This import is JS-only
-import { uid } from '@/lib/uid'
+import { isEmptyUID, uid } from '@/lib/uid'
 import { useHardware } from '@/composables/hardware'
 import { useOptions } from '@/composables/options'
 
@@ -97,11 +96,6 @@ async function reset() {
   } else {
     error('Reset Runtime Options', 'An error occurred resetting runtime options')
   }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-shadow
-function isEmptyUID(uid: number[]) {
-  return !uid || uid.length !== 6 || uid.join(',').endsWith('0,0,0,0')
 }
 
 const { isTx } = useBuildOptions()

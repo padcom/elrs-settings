@@ -1,20 +1,23 @@
 /* eslint-disable eslint-comments/no-unlimited-disable */
 /* eslint-disable */
+
+import type { UID } from '@/types'
+
 export const uid = function() {
-  const k = [];
+  const k: any = [];
   let i = 0;
 
   for (; i < 64;) {
     k[i] = 0 | (Math.abs(Math.sin(++i)) * 4294967296);
   }
 
-  function calcUidWithMD5(str) {
-    str = `-DMY_BINDING_PHRASE="${str}"`
+  function calcUidWithMD5(phrase: string): UID {
+    let str: any = `-DMY_BINDING_PHRASE="${phrase}"`
 
-    let b; let c; let d; let j;
-    const x = [];
+    let b; let c; let d; let j: any;
+    const x: any[] = [];
     const str2 = unescape(encodeURI(str));
-    let a = str2.length;
+    let a: any = str2.length;
     const h = [b = 1732584193, c = -271733879, ~b, ~c];
     let i = 0;
 
@@ -68,3 +71,7 @@ export const uid = function() {
 
   return calcUidWithMD5;
 }();
+
+export function isEmptyUID(uid: UID) {
+  return !uid || uid.length !== 6 || uid.join(',').endsWith('0,0,0,0')
+}
