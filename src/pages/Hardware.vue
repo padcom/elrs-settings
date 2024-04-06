@@ -1,6 +1,4 @@
 <template>
-  <SectionHeader>Hardware</SectionHeader>
-
   <div v-if="hardware" class="hardware">
     <Section title="CRSF Serial Pins">
       <DigitalInput v-model="hardware.serial_rx"
@@ -492,7 +490,6 @@ import PowerSelect from './hardware/PowerSelect.vue'
 import ScreenTypeSelect from './hardware/ScreenTypeSelect.vue'
 import PowerLevelControlSelect from './hardware/PowerLevelControlSelect.vue'
 import VBatAttenuationSelect from './hardware/VBatAttenuationSelect.vue'
-import SectionHeader from './home/components/SectionHeader.vue'
 import Button from '@/components/Button.vue'
 
 const { hardware, load, save } = useHardware()
