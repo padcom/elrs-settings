@@ -82,7 +82,7 @@ import { useProxySettings } from '@/composables/proxy'
 import { useHardware } from '@/composables/hardware'
 import { uid } from '@/lib/uid'
 
-const { question, error } = useAlert()
+const { info, question, error } = useAlert()
 const { proxy, load, save: saveProxySettings, reset: resetProxySettings, originalUID } = useProxySettings()
 const { reboot } = useHardware()
 const bindingPhrase = ref('')
@@ -118,14 +118,7 @@ async function save() {
 async function reset() {
   const result = await resetProxySettings()
   if (result.status === 'ok') {
-    if (await question(
-      'Proxy settings',
-      'Proxy settings have been reset to defaults. Do you want to restart now for the changes to take effect?',
-      'Reboot',
-      'No',
-    ) !== 'cancel') {
-      reboot()
-    }
+    info('Proxy settings', 'Reset complete, rebooting...')
   } else {
     error('Proxy settings', result.msg)
   }
