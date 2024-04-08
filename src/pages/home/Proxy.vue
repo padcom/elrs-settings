@@ -6,12 +6,12 @@
     </p>
 
     <Content v-if="proxy">
-      <Checkbox v-model="proxy['is-proxy']" label="Can switch to proxy" />
-      <TextInput v-if="proxy['is-proxy']" v-model="bindingPhrase"
+      <Checkbox label="Is this the proxy transmitter" />
+      <TextInput v-model="bindingPhrase"
         label="Secondary binding phrase"
         placeholder="Binding phrase"
       />
-      <ArrayInput v-if="proxy['is-proxy']" v-model="proxy['proxy-uid']" label="Secondary UID" readonly />
+      <ArrayInput v-model="proxy['proxy-uid']" label="Secondary UID" readonly />
       <Select v-model.number="proxy.aux" label="Channel to control proxy connection">
         <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
       </Select>
