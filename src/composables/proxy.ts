@@ -51,7 +51,7 @@ export const useProxySettings = singleton(() => {
   }
 
   async function reset() {
-    const response = await http(`/reset?options`, { method: 'POST' })
+    const response = await http(`/reset?proxy`, { method: 'POST' })
 
     return {
       status: response.ok ? 'ok' : 'error',
