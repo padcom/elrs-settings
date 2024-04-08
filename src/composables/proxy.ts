@@ -18,7 +18,8 @@ export const useProxySettings = singleton(() => {
       proxy.value = {
         'is-proxy': false,
         'proxy-uid': [],
-        aux: 8,
+        aux_proxy_tx_enable: 8,
+        aux_uid_switch: 8,
       }
       originalUID.value = []
     }

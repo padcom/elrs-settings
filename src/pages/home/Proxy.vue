@@ -40,13 +40,18 @@
     </p>
 
     <Content v-if="proxy">
-      <Checkbox label="Is this the proxy (re-translator) transmitter?" />
+      <Checkbox label="Is this the proxy (re-translator) transmitter?"
+        title="Enable/disable proxy transmitter based on AUX channel state"
+      />
       <TextInput v-model="bindingPhrase"
         label="Secondary binding phrase"
         placeholder="Binding phrase"
       />
       <ArrayInput v-model="proxy['proxy-uid']" label="Secondary UID" readonly />
-      <Select v-model.number="proxy.aux" label="Channel to control proxy connection">
+      <Select v-model.number="proxy.aux_uid_switch" label="Channel to control UID switching">
+        <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
+      </Select>
+      <Select v-model.number="proxy.aux_proxy_tx_enable" label="Channel to control proxy TX">
         <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
       </Select>
     </Content>
