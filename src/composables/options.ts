@@ -50,7 +50,10 @@ export const useOptions = singleton(() => {
   async function reset() {
     const response = await http(`/reset?options`, { method: 'POST' })
 
-    return response.ok
+    return {
+      status: response.ok ? 'ok' : 'error',
+      msg: response.statusText,
+    }
   }
 
   return { options, load, save, reset }

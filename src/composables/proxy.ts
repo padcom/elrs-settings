@@ -41,7 +41,7 @@ export const useProxySettings = singleton(() => {
     const response = await http(`/proxy.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(proxy.value),
+      body: JSON.stringify({ customised: true, ...proxy.value }),
     })
 
     return {
@@ -50,5 +50,14 @@ export const useProxySettings = singleton(() => {
     }
   }
 
-  return { proxy, load, save, originalUID }
+  async function reset() {
+    const response = await http(`/reset?options`, { method: 'POST' })
+
+    return {
+      status: response.ok ? 'ok' : 'error',
+      msg: response.statusText,
+    }
+  }
+
+  return { proxy, load, save, reset, originalUID }
 })
