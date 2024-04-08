@@ -14,5 +14,5 @@ defineProps({
   label: { type: String, default: 'Label' },
 })
 
-const value = defineModel({ type: String, default: '' })
+const value = defineModel<string>({ default: '' })
 </script>

@@ -18,7 +18,7 @@ defineProps({
   label: { type: String, default: 'Label' },
 })
 
-const value = defineModel({ type: Object })
+const value = defineModel<string | number>()
 </script>
 
 <style lang="postcss" scoped>

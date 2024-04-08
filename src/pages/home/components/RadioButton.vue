@@ -13,7 +13,7 @@ defineProps({
   label: { type: String, default: 'Label' },
 })
 
-const modelValue = defineModel({ type: String })
+const modelValue = defineModel<string>()
 const id = uniqueId()
 </script>
 

@@ -15,7 +15,7 @@ defineProps({
   label: { type: String, default: 'Label' },
 })
 
-const value = defineModel({ type: Array, default: () => [] })
+const value = defineModel<string[] | number[]>({ default: () => [] })
 
 const editableValue = computed({
   get(): string {

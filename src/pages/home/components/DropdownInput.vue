@@ -24,7 +24,7 @@ defineProps({
   options: { type: Array as PropType<string[]>, default: () => [] },
 })
 
-const value = defineModel({ type: String, default: '' })
+const value = defineModel<string>({ default: '' })
 
 const showOptions = ref(false)
 
