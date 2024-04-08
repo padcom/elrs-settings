@@ -8,6 +8,7 @@
       much higher than the operator's transmitter and re-transmitting the signal from that intermediate receiver
       through an intermediate transmitter back to the drone.
     </p>
+    <!--
     <p class="paragraph">
       The term <strong>Proxy</strong> means that it is an intermediary between the actual recipient of data (receiver
       on the drone) and the original sender of data (transmitter on the operator's radio).
@@ -38,20 +39,19 @@
         </li>
       </ul>
     </p>
-
+-->
     <Content v-if="proxy">
-      <Checkbox label="Is this the proxy (re-translator) transmitter?"
-        title="Enable/disable proxy transmitter based on AUX channel state"
-      />
       <TextInput v-model="bindingPhrase"
         label="Secondary binding phrase"
         placeholder="Binding phrase"
       />
       <ArrayInput v-model="proxy['proxy-uid']" label="Secondary UID" readonly />
-      <Select v-model.number="proxy.aux_uid_switch" label="Channel to control UID switching">
+      <Select v-model.number="proxy['aux-uid-switch']" label="Channel to control UID switching">
+        <option :value="0">DISABLED</option>
         <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
       </Select>
-      <Select v-model.number="proxy.aux_proxy_tx_enable" label="Channel to control proxy TX">
+      <Select v-model.number="proxy['aux-tx-enable']" label="Channel to control proxy TX">
+        <option :value="0">DISABLED</option>
         <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
       </Select>
     </Content>
@@ -70,7 +70,6 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import Content from '@/components/Content.vue'
 import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
-import Checkbox from './components/Checkbox.vue'
 import TextInput from './components/TextInput.vue'
 import ArrayInput from './components/ArrayInput.vue'
 import Select from './components/Select.vue'

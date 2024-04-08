@@ -29,8 +29,7 @@ export interface Config {
 }
 
 export interface Proxy {
-  'is-proxy': boolean
-  'aux_uid_switch': number
-  'aux_proxy_tx_enable': number
+  'aux-uid-switch': number
+  'aux-tx-enable': number
   'proxy-uid': number[]
 }

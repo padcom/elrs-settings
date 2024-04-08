@@ -16,10 +16,9 @@ export const useProxySettings = singleton(() => {
       originalUID.value = proxy.value?.['proxy-uid'] || []
     } else {
       proxy.value = {
-        'is-proxy': false,
         'proxy-uid': [],
-        aux_proxy_tx_enable: 8,
-        aux_uid_switch: 8,
+        'aux-tx-enable': 0,
+        'aux-uid-switch': 0,
       }
       originalUID.value = []
     }
