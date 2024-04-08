@@ -7,6 +7,9 @@
       <Options />
       <ImportExportOptions />
     </Tab>
+    <Tab v-if="hasProxy" title="Proxy">
+      <Proxy />
+    </Tab>
     <Tab title="WiFi" @selected="autoPopulateWifiNetworks && loadWiFiNetworks()">
       <WiFi />
     </Tab>
@@ -26,6 +29,7 @@ import Tabs from './home/components/Tabs.vue'
 import Tab from './home/components/Tab.vue'
 import Model from './home/Model.vue'
 import Options from './home/Options.vue'
+import Proxy from './home/Proxy.vue'
 import ImportExportOptions from './home/ImportExportOptions.vue'
 import WiFi from './home/WiFi.vue'
 import Buttons from './home/Buttons.vue'
@@ -35,7 +39,7 @@ import { useBuildOptions } from '@/composables/build'
 import { useNetworks } from '@/composables/networks'
 
 const { load } = useConfig()
-const { isTx } = useBuildOptions()
+const { isTx, hasProxy } = useBuildOptions()
 const { load: loadWiFiNetworks } = useNetworks()
 const autoPopulateWifiNetworks = ref(false)
 
