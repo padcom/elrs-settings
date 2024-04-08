@@ -5,42 +5,17 @@
   </div>
 </template>
 
-<script lang="ts">
-export interface Tab {
-  id: string
-  title: string
-  emit: (e: 'selected') => void
-}
-</script>
-
 <script lang="ts" setup>
-import { ref, provide } from 'vue'
-
 import TabSelector from './TabSelector.vue'
+import { provideTabs, type Tab } from './tabs'
 
-const emit = defineEmits<{(e: 'tab-selected', tab: Tab): void}>()
+const emit = defineEmits<{(e: 'tab-selected', tab: Tab | undefined): void}>()
 
-const tabs = ref<Tab[]>([])
-const selectedTab = ref<Tab>()
-
-function selectTab(tab: Tab) {
-  selectedTab.value = tab
-  tab.emit('selected')
+function onTabSelected(tab: Tab | undefined) {
   emit('tab-selected', tab)
 }
 
-function addTab(tab: Tab) {
-  tabs.value.push(tab)
-
-  if (!selectedTab.value) {
-    selectedTab.value = tab
-  }
-}
-
-provide('tabs', tabs)
-provide('selectedTab', selectedTab)
-provide('addTab', addTab)
-provide('selectTab', selectTab)
+provideTabs(onTabSelected)
 </script>
 
 <style lang="postcss" scoped>

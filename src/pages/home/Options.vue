@@ -13,9 +13,12 @@
 
     <Content v-if="config?.config">
       <TextInput v-model="bindingPhrase"
-        label="Binding Phrase" placeholder="Binding Phrase"
+        label="Binding Phrase"
+        placeholder="Binding Phrase"
       />
-      <ArrayInput :model-value="config.config.uid" :label="uidLabel.description" :readonly="true">
+      <ArrayInput :model-value="config.config.uid" readonly
+        :label="uidLabel.description"
+      >
         <Tag :fg="uidLabel.fg" :bg="uidLabel.bg">{{ uidLabel.type }}</Tag>
       </ArrayInput>
       <NumericInput v-model="config.options['wifi-on-interval']"
@@ -34,16 +37,16 @@
       <NumericInput v-if="config.options['is-airport']" v-model="config.options['airport-uart-baud']"
         label="AirPort UART baud"
       />
-
-      <Actions>
-        <Button type="primary" @click="save">
-          Save
-        </Button>
-        <Button v-if="config.options.customised" type="danger" small @click="reset">
-          Reset runtime options to defaults
-        </Button>
-      </Actions>
     </Content>
+
+    <Actions v-if="config?.config">
+      <Button type="primary" @click="save">
+        Save
+      </Button>
+      <Button v-if="config.options.customised" type="danger" small @click="reset">
+        Reset runtime options to defaults
+      </Button>
+    </Actions>
   </Panel>
 </template>
 

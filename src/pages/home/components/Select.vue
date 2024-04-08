@@ -3,7 +3,7 @@
     <template #aux><slot name="aux" /></template>
     <template #default="{ id }">
       <div class="select">
-        <select :id="id" v-bind="$attrs">
+        <select :id="id" v-model="value" v-bind="$attrs">
           <slot />
         </select>
       </div>
@@ -17,6 +17,8 @@ import Field from './Field.vue'
 defineProps({
   label: { type: String, default: 'Label' },
 })
+
+const value = defineModel({ type: Object })
 </script>
 
 <style lang="postcss" scoped>

@@ -19,22 +19,22 @@
         :class="{ loading }"
       />
       <TextInput v-if="showWiFiControls" v-model="password" label="WiFi password" type="password" />
-
-      <Actions>
-        <Button v-if="action === 'new-network'" :disabled="!ssid || !password" @click="connect(ssid, password, false)">
-          Confirm
-        </Button>
-        <Button v-if="action === 'one-time'" :disabled="!ssid || !password" @click="connect(ssid, password, true)">
-          Confirm
-        </Button>
-        <Button v-if="action === 'start-ap'" @click="accessPoint()">
-          Confirm
-        </Button>
-        <Button v-if="action === 'forget'" @click="forget()">
-          Confirm
-        </Button>
-      </Actions>
     </Content>
+
+    <Actions>
+      <Button v-if="action === 'new-network'" :disabled="!ssid || !password" @click="connect(ssid, password, false)">
+        Confirm
+      </Button>
+      <Button v-if="action === 'one-time'" :disabled="!ssid || !password" @click="connect(ssid, password, true)">
+        Confirm
+      </Button>
+      <Button v-if="action === 'start-ap'" @click="accessPoint()">
+        Confirm
+      </Button>
+      <Button v-if="action === 'forget'" @click="forget()">
+        Confirm
+      </Button>
+    </Actions>
   </Panel>
 </template>
 

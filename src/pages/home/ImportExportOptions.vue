@@ -2,21 +2,18 @@
   <Panel>
     <SectionHeader>Import/Export</SectionHeader>
 
-    <Content>
-      <Actions>
-        <Button type="secondary" small @click="download()">Save model configuration file</Button>
-        <UploadButton type="primary" small @upload="upload($event)">
-          Upload model configuration file
-        </UploadButton>
-      </Actions>
-    </Content>
+    <Actions>
+      <Button type="secondary" small @click="download()">Save model configuration file</Button>
+      <UploadButton type="primary" small @upload="upload($event)">
+        Upload model configuration file
+      </UploadButton>
+    </Actions>
   </Panel>
 </template>
 
 <script lang="ts" setup>
 import Panel from '@/components/Panel.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
-import Content from '@/components/Content.vue'
 import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
 import UploadButton from '@/components/UploadButton.vue'

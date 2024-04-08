@@ -1,6 +1,6 @@
 <template>
   <ul class="tab-selector">
-    <li v-for="tab in tabs" :key="tab.id" class="activator"
+    <li v-for="tab in tabs" :key="tab.id" class="tab-activator"
       :class="{ active: tab.id === selectedTab?.id }"
       @click="selectTab(tab)">
       {{ tab.title }}
@@ -9,13 +9,9 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, type Ref } from 'vue'
+import { useTabs } from './tabs'
 
-import type { Tab } from './Tabs.vue'
-
-const tabs = inject('tabs') as Ref<Tab[]>
-const selectedTab = inject('selectedTab') as Ref<Tab>
-const selectTab = inject('selectTab') as (tab: Tab) => void
+const { tabs, selectTab, selectedTab } = useTabs()
 </script>
 
 <style lang="postcss" scoped>
@@ -23,7 +19,7 @@ const selectTab = inject('selectTab') as (tab: Tab) => void
   display: flex;
   list-style: none;
 
-  .activator {
+  .tab-activator {
     flex: 1;
     text-align: center;
     cursor: pointer;

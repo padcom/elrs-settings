@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <input :id="id" v-model="value" type="checkbox" :readonly="readonly">
+    <input :id="id" v-model="value" type="checkbox" v-bind="$attrs">
     <label :for="id">{{ label }}</label>
   </div>
 </template>
@@ -10,7 +10,6 @@ import { uniqueId } from '@/composables/id'
 
 defineProps({
   label: { type: String, default: 'Label' },
-  readonly: { type: Boolean, default: false },
 })
 
 const value = defineModel({ type: Boolean, default: false })

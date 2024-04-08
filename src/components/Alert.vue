@@ -72,7 +72,6 @@ interface ShowAlertOptions {
   cancelText?: string,
 }
 
-// eslint-disable-next-line max-params
 function show({
   type,
   title,

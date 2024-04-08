@@ -41,7 +41,7 @@ import { useNetworks } from '@/composables/networks'
 const { load } = useConfig()
 const { isTx, hasProxy } = useBuildOptions()
 const { load: loadWiFiNetworks } = useNetworks()
-const autoPopulateWifiNetworks = ref(false)
+const autoPopulateWifiNetworks = ref(true)
 
 onMounted(load)
 </script>

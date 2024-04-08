@@ -15,11 +15,11 @@
       <Select v-model.number="proxy.aux" label="Channel to control proxy connection">
         <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
       </Select>
-
-      <Actions>
-        <Button type="primary" @click="save">Save proxy settings</Button>
-      </Actions>
     </Content>
+
+    <Actions v-if="proxy">
+      <Button type="primary" @click="save">Save proxy settings</Button>
+    </Actions>
   </Panel>
 </template>
 

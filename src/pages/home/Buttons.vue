@@ -2,13 +2,13 @@
   <Panel>
     <SectionHeader>Buttons</SectionHeader>
 
-    <Content>
-      <Actions>
-        <Button type="primary">
-          Save
-        </Button>
-      </Actions>
-    </Content>
+    <Content />
+
+    <Actions>
+      <Button type="primary">
+        Save
+      </Button>
+    </Actions>
   </Panel>
 </template>
 

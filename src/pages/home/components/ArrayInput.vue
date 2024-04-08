@@ -1,8 +1,8 @@
 <template>
-  <Field :label="label" :description="description">
+  <Field :label="label">
     <template #aux><slot /></template>
     <template #default="{ id }">
-      <input :id="id" v-model="editableValue" v-bind="$attrs">
+      <input :id="id" v-model="editableValue" v-bind="$attrs" type="text">
     </template>
   </Field>
 </template>
@@ -13,7 +13,6 @@ import Field from './Field.vue'
 
 defineProps({
   label: { type: String, default: 'Label' },
-  description: { type: String, default: '' },
 })
 
 const value = defineModel({ type: Array, default: () => [] })

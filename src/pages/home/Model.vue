@@ -2,13 +2,13 @@
   <Panel>
     <SectionHeader>Model options</SectionHeader>
 
-    <Content>
-      <Actions>
-        <Button type="primary">
-          Save
-        </Button>
-      </Actions>
-    </Content>
+    <Content />
+
+    <Actions>
+      <Button type="primary">
+        Save
+      </Button>
+    </Actions>
   </Panel>
 </template>
 

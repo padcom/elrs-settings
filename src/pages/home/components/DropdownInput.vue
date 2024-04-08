@@ -1,8 +1,8 @@
 <template>
-  <Field v-bind="$attrs" :label="label" class="dropdown">
+  <Field :label="label" class="dropdown">
     <template #aux><slot /></template>
     <template #default="{ id }">
-      <input :id="id" v-model="value" type="text" :placeholder="placeholder" :readonly="readonly" class="dropdown-input"
+      <input :id="id" v-model="value" v-bind="$attrs" type="text" class="dropdown-input"
         @focus="showOptions = true"
         @blur="showOptions = false"
       >
@@ -21,12 +21,10 @@ import Field from './Field.vue'
 
 defineProps({
   label: { type: String, default: 'Label' },
-  placeholder: { type: String, default: '' },
-  readonly: { type: Boolean, default: false },
   options: { type: Array as PropType<string[]>, default: () => [] },
 })
 
-const value = defineModel({ type: String })
+const value = defineModel({ type: String, default: '' })
 
 const showOptions = ref(false)
 
@@ -43,10 +41,10 @@ function selectOption(option: string) {
     position: absolute;
     top: 46px;
     z-index: 1;
-    background-color: #fff;
+    background-color: white;
     max-height: 248px;
-    border: 1px solid #e7ecf5;
-    box-shadow: 0px -8px 34px 0px rgba(0,0,0,0.05);
+    border: 1px solid var(--clr-dropdown-options-bg);
+    box-shadow: var(--dropdown-options-shadow);
     overflow: auto;
     width: 100%;
 
@@ -55,7 +53,7 @@ function selectOption(option: string) {
       cursor: pointer;
 
       &:hover {
-        background-color: #e7ecf5;
+        background-color: var(--clr-dropdown-options-hover);
       }
     }
   }

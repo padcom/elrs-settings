@@ -1,6 +1,6 @@
 <template>
   <div class="radiobutton">
-    <input :id="id" v-model="modelValue" :value="value" type="radio">
+    <input :id="id" v-model="modelValue" v-bind="$attrs" :value="value" type="radio">
     <label :for="id">{{ label }}</label>
   </div>
 </template>

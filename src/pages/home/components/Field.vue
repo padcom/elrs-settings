@@ -11,7 +11,6 @@ import { uniqueId } from '@/composables/id'
 
 defineProps({
   label: { type: String, default: 'Label' },
-  description: { type: String, default: 'Description' },
 })
 
 const id = uniqueId()

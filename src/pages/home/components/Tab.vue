@@ -5,22 +5,25 @@
 </template>
 
 <script lang="ts" setup>
-import { inject, onMounted, type Ref } from 'vue'
+import { onMounted } from 'vue'
 
-import type { Tab } from './Tabs.vue'
+import { useTabs, type Tab } from './tabs'
 
 const props = defineProps({
   id: { type: String, default: () => crypto.randomUUID() },
   title: { type: String, default: 'Tab' },
 })
 
-const emit = defineEmits<{(e: 'selected'): void}>()
+const emit = defineEmits<{(e: 'selected', tab: Tab): void}>()
 
-const addTab = inject('addTab') as (tab: Tab) => void
-const selectedTab = inject('selectedTab') as Ref<Tab>
+const { addTab, selectedTab } = useTabs()
+
+function onTabSelected(tab: Tab) {
+  emit('selected', tab)
+}
 
 onMounted(() => {
-  addTab({ title: props.title, id: props.id, emit })
+  addTab({ title: props.title, id: props.id, onTabSelected })
 })
 </script>
 

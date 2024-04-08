@@ -8,14 +8,12 @@
       <a href="/firmware.bin" title="Click to download firmware">currently running firmware</a>.
     </p>
 
-    <Content>
-      <Actions>
-        <UploadButton @upload="upload($event)">
-          Flash firmware file
-        </UploadButton>
-        <progress ref="progressBar" value="0" max="100" />
-      </Actions>
-    </Content>
+    <Actions>
+      <UploadButton @upload="upload($event)">
+        Flash firmware file
+      </UploadButton>
+      <progress ref="progressBar" value="0" max="100" />
+    </Actions>
   </Panel>
 </template>
 
@@ -24,7 +22,6 @@ import { ref } from 'vue'
 
 import Panel from '@/components/Panel.vue'
 import SectionHeader from '@/components/SectionHeader.vue'
-import Content from '@/components/Content.vue'
 import Actions from '@/components/Actions.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
