@@ -2,13 +2,14 @@
 import { ref } from 'vue'
 
 import { singleton } from '@/lib/singleton'
+import { http } from '@/lib/http-client'
 import { cleanupObjectFromUndefined } from '@/lib/object-cleaner'
 
 export const useHardware = singleton(() => {
   const hardware = ref<any>()
 
   async function load() {
-    const response = await fetch(`hardware.json`)
+    const response = await http(`hardware.json`)
     if (response.ok) {
       hardware.value = await response.json()
     } else {
@@ -24,7 +25,7 @@ export const useHardware = singleton(() => {
       ...cleanupObjectFromUndefined(hardware.value),
     }
 
-    const response = await fetch(`/hardware.json`, {
+    const response = await http(`/hardware.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
@@ -40,13 +41,13 @@ export const useHardware = singleton(() => {
   }
 
   async function reset() {
-    const response = await fetch(`/reset?hardware`, { method: 'POST' })
+    const response = await http(`/reset?hardware`, { method: 'POST' })
 
     return response.ok
   }
 
   async function reboot() {
-    const response = await fetch(`/reboot`, { method: 'POST' })
+    const response = await http(`/reboot`, { method: 'POST' })
 
     return response.ok
   }

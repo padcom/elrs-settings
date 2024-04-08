@@ -2,6 +2,7 @@ import { ref } from 'vue'
 
 import type { Proxy } from '@/types'
 import { singleton } from '@/lib/singleton'
+import { http } from '@/lib/http-client'
 
 // eslint-disable-next-line max-lines-per-function
 export const useProxySettings = singleton(() => {
@@ -9,7 +10,7 @@ export const useProxySettings = singleton(() => {
   const originalUID = ref<number[]>([])
 
   async function load() {
-    const response = await fetch(`/proxy.json`)
+    const response = await http(`/proxy.json`)
     if (response.ok) {
       proxy.value = await response.json()
       originalUID.value = proxy.value?.['proxy-uid'] || []
@@ -31,7 +32,7 @@ export const useProxySettings = singleton(() => {
       }
     }
 
-    const response = await fetch(`/proxy.json`, {
+    const response = await http(`/proxy.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(proxy.value),

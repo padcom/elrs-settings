@@ -26,6 +26,7 @@ import Actions from '@/components/Actions.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
 import { useBuildOptions } from '@/composables/build'
+import { http } from '@/lib/http-client'
 import { uploadFile } from '@/lib/file-upload'
 import { ticker } from '@/lib/ticker'
 import { useAlert } from '@/composables/alert'
@@ -63,7 +64,7 @@ async function upload(files: FileList) {
           if (await question('Targets Mismatch', result.msg || 'What do we do now?', 'Flash anyway', 'Cancel') !== 'cancel') {
             const body = new FormData()
             body.append('action', 'confirm')
-            await fetch(`/forceupdate`, { method: 'POST', body })
+            await http(`/forceupdate`, { method: 'POST', body })
           }
           break
         case 'error':

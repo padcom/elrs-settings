@@ -3,6 +3,7 @@
 /* eslint-disable no-await-in-loop */
 import { ref } from 'vue'
 import { singleton } from '@/lib/singleton'
+import { http } from '@/lib/http-client'
 import { sleep } from '@/lib/sleep'
 
 export const useNetworks = singleton(() => {
@@ -16,7 +17,7 @@ export const useNetworks = singleton(() => {
 
     while (true) {
       try {
-        const response = await fetch(`/networks.json`)
+        const response = await http(`/networks.json`)
         if (response.ok && response.status === 200) {
           networks.value = await response.json()
           break

@@ -1,3 +1,5 @@
+import { getBaseURL } from './http-client'
+
 // eslint-disable-next-line @typescript-eslint/no-empty-function
 const noop = () => {}
 
@@ -26,7 +28,7 @@ export function uploadFile<T = string>(
     xhr.addEventListener('load', () => resolve(parseResponse<T>(xhr.responseText)), { once: true })
     xhr.addEventListener('error', () => reject(parseResponse<T>(xhr.responseText)), { once: true })
     xhr.addEventListener('abort', () => reject(parseResponse<T>(xhr.responseText)), { once: true })
-    xhr.open(method, url)
+    xhr.open(method, `${getBaseURL()}${url}`)
     xhr.setRequestHeader('X-FileSize', String(file.size))
 
     const data = new FormData()

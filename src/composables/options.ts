@@ -3,13 +3,14 @@ import { ref } from 'vue'
 
 import type { BuildOptions } from '@/types'
 import { singleton } from '@/lib/singleton'
+import { http } from '@/lib/http-client'
 import { useConfig } from './config'
 
 export const useOptions = singleton(() => {
   const options = ref<BuildOptions>()
 
   async function load() {
-    const response = await fetch(`/options.json`)
+    const response = await http(`/options.json`)
     if (response.ok) {
       options.value = await response.json()
       const { config } = useConfig()
@@ -30,7 +31,7 @@ export const useOptions = singleton(() => {
       }
     }
 
-    const response = await fetch(`/options.json`, {
+    const response = await http(`/options.json`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -47,7 +48,7 @@ export const useOptions = singleton(() => {
   }
 
   async function reset() {
-    const response = await fetch(`/reset?options`, { method: 'POST' })
+    const response = await http(`/reset?options`, { method: 'POST' })
 
     return response.ok
   }
