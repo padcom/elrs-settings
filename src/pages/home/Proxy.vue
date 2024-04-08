@@ -1,12 +1,46 @@
 <template>
   <Panel>
     <SectionHeader>Proxy</SectionHeader>
-    <p>
+    <p class="paragraph">
       Here you can configure re-translator proxy.
+      The proxy mechanism (otherwise known as re-translator) is a way to extend the range of your control
+      link beyond what would otherwise be possible. It is achieved by having a separate pair of RX+TX mounted
+      much higher than the operator's transmitter and re-transmitting the signal from that intermediate receiver
+      through an intermediate transmitter back to the drone.
+    </p>
+    <p class="paragraph">
+      The term <strong>Proxy</strong> means that it is an intermediary between the actual recipient of data (receiver
+      on the drone) and the original sender of data (transmitter on the operator's radio).
+    </p>
+    <p class="paragraph">
+      The proxy's receiver will have a different binding phrase (<strong>Secondary UID</strong>), that the operator's
+      radio transmitter can switch to by setting an AUX channel (<strong>Channel to control proxy connection</strong>)
+      high (above 1750ms).
+      However, the proxy transmitter will have the same binding phrase as the primary binding phrase on the operator's
+      transmitter. Therefore, for those two not to collide, the proxy's transmitter remains inactive until
+      the AUX channel turns <strong>high</strong> and the operator's transmitter uses the secondary UID to talk to
+      the proxy's receiver.
+    </p>
+    <h4>The sequence of events is as follows:</h4>
+    <p class="paragraph">
+      <ul class="list">
+        <li>You take off normally</li>
+        <li>
+          Once you need to extend your range you switch to the proxy by changing the AUX channel high.
+          This changes the operator's binding phrase so it can talk to the proxy instead of the drone.
+          Once that happens the proxy's transmitter takes over the transmission to the drone.
+        </li>
+        <li>
+          <p>
+            When you don't need the extended range anymore you switch back the AUX to low and the proxy is deactivated
+            and the proxy transmitter is disabled once again to not interfere with the operator's radio
+          </p>
+        </li>
+      </ul>
     </p>
 
     <Content v-if="proxy">
-      <Checkbox label="Is this the proxy transmitter" />
+      <Checkbox label="Is this the proxy (re-translator) transmitter?" />
       <TextInput v-model="bindingPhrase"
         label="Secondary binding phrase"
         placeholder="Binding phrase"
