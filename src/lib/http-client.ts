@@ -4,6 +4,15 @@ export function getBaseURL() {
   return params.get('base-url') || ''
 }
 
-export function http(url: string | URL | Request, options?: RequestInit) {
-  return fetch(`${getBaseURL()}${url}`, options)
+export async function http(url: string | URL | Request, options?: RequestInit) {
+  try {
+    return await fetch(`${getBaseURL()}${url}`, options)
+  } catch (e: any) {
+    return {
+      ok: false,
+      type: 'error',
+      status: 500,
+      statusText: e.message || e,
+    } as Response
+  }
 }
