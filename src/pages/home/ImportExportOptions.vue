@@ -1,19 +1,23 @@
 <template>
   <Panel>
     <SectionHeader>Import/Export</SectionHeader>
-    <ActionsPanel>
-      <Button type="secondary" small @click="download()">Save model configuration file</Button>
-      <UploadButton type="primary" small @upload="upload($event)">
-        Upload model configuration file
-      </UploadButton>
-    </ActionsPanel>
+
+    <Content>
+      <Actions>
+        <Button type="secondary" small @click="download()">Save model configuration file</Button>
+        <UploadButton type="primary" small @upload="upload($event)">
+          Upload model configuration file
+        </UploadButton>
+      </Actions>
+    </Content>
   </Panel>
 </template>
 
 <script lang="ts" setup>
 import Panel from '@/components/Panel.vue'
-import SectionHeader from './components/SectionHeader.vue'
-import ActionsPanel from '@/components/ActionsPanel.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
+import Content from '@/components/Content.vue'
+import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
@@ -33,7 +37,8 @@ async function download() {
   }
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 function upload(files: FileList) {
-  console.log('Uploading', files)
+  error('Temporary', 'Not implemented yet')
 }
 </script>

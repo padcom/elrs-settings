@@ -5,7 +5,7 @@
       Here you can configure re-translator proxy.
     </p>
 
-    <div v-if="proxy" class="inputs">
+    <Content v-if="proxy">
       <Checkbox v-model="proxy['is-proxy']" label="Can switch to proxy" />
       <TextInput v-if="proxy['is-proxy']" v-model="bindingPhrase"
         label="Secondary binding phrase"
@@ -15,20 +15,22 @@
       <Select v-model.number="proxy.aux" label="Channel to control proxy connection">
         <option v-for="index in 12" :key="index" :value="index + 4">AUX{{ index + 4 }}</option>
       </Select>
-    </div>
 
-    <ActionsPanel>
-      <Button type="primary" @click="save">Save proxy settings</Button>
-    </ActionsPanel>
+      <Actions>
+        <Button type="primary" @click="save">Save proxy settings</Button>
+      </Actions>
+    </Content>
   </Panel>
 </template>
 
 <script lang="ts" setup>
 import { ref, watch, onMounted } from 'vue'
+
 import Panel from '@/components/Panel.vue'
-import ActionsPanel from '@/components/ActionsPanel.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
+import Content from '@/components/Content.vue'
+import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
-import SectionHeader from './components/SectionHeader.vue'
 import Checkbox from './components/Checkbox.vue'
 import TextInput from './components/TextInput.vue'
 import ArrayInput from './components/ArrayInput.vue'
@@ -36,8 +38,8 @@ import Select from './components/Select.vue'
 
 import { useAlert } from '@/composables/alert'
 import { useProxySettings } from '@/composables/proxy'
-import { uid } from '@/lib/uid'
 import { useHardware } from '@/composables/hardware'
+import { uid } from '@/lib/uid'
 
 const { question, error } = useAlert()
 const { proxy, load, save: saveProxySettings, originalUID } = useProxySettings()
@@ -72,12 +74,3 @@ async function save() {
   }
 }
 </script>
-
-<style lang="postcss" scoped>
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-}
-</style>

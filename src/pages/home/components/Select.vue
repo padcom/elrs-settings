@@ -1,9 +1,9 @@
 <template>
-  <Field v-bind="$attrs" :label="label">
+  <Field :label="label">
     <template #aux><slot name="aux" /></template>
     <template #default="{ id }">
       <div class="select">
-        <select :id="id" v-model="value" :readonly="readonly">
+        <select :id="id" v-bind="$attrs">
           <slot />
         </select>
       </div>
@@ -16,11 +16,7 @@ import Field from './Field.vue'
 
 defineProps({
   label: { type: String, default: 'Label' },
-  placeholder: { type: String, default: '' },
-  readonly: { type: Boolean, default: false },
 })
-
-const value = defineModel({ type: String, default: () => [] })
 </script>
 
 <style lang="postcss" scoped>

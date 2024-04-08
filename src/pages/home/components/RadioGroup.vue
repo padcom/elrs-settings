@@ -1,14 +1,13 @@
 <template>
-  <div class="actions">
+  <div class="radio-group">
     <slot />
   </div>
 </template>
 
 <style lang="postcss" scoped>
-.actions {
+.radio-group {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 4px;
 }
 </style>

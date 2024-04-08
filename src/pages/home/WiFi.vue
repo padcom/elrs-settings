@@ -7,27 +7,34 @@
       In Access Point (AP) mode, the network name is ExpressLRS TX or ExpressLRS RX with password "expresslrs".
     </p>
 
-    <div class="content">
-      <div class="options">
+    <Content>
+      <RadioGroup>
         <RadioButton v-model="action" value="new-network" label="Set new Home network" />
         <RadioButton v-model="action" value="one-time" label="One-time connect to network, ratain Home network setting" />
         <RadioButton v-model="action" value="start-ap" label="Start AP mode, ratain Home network setting" />
         <RadioButton v-model="action" value="forget" label="Forget Home network setting, always use AP mode" />
-      </div>
-      <br>
+      </RadioGroup>
       <DropdownInput v-if="showWiFiControls" v-model="ssid" class="ssid" label="WiFi SSID" placeholder="SSID"
         :options="networks"
         :class="{ loading }"
       />
       <TextInput v-if="showWiFiControls" v-model="password" label="WiFi password" type="password" />
 
-      <ActionsPanel>
-        <Button v-if="action === 'new-network'" :disabled="!ssid || !password" @click="connect(ssid, password, false)">Confirm</Button>
-        <Button v-if="action === 'one-time'" :disabled="!ssid || !password" @click="connect(ssid, password, true)">Confirm</Button>
-        <Button v-if="action === 'start-ap'" @click="accessPoint()">Confirm</Button>
-        <Button v-if="action === 'forget'" @click="forget()">Confirm</Button>
-      </ActionsPanel>
-    </div>
+      <Actions>
+        <Button v-if="action === 'new-network'" :disabled="!ssid || !password" @click="connect(ssid, password, false)">
+          Confirm
+        </Button>
+        <Button v-if="action === 'one-time'" :disabled="!ssid || !password" @click="connect(ssid, password, true)">
+          Confirm
+        </Button>
+        <Button v-if="action === 'start-ap'" @click="accessPoint()">
+          Confirm
+        </Button>
+        <Button v-if="action === 'forget'" @click="forget()">
+          Confirm
+        </Button>
+      </Actions>
+    </Content>
   </Panel>
 </template>
 
@@ -35,12 +42,14 @@
 import { ref, computed } from 'vue'
 
 import Panel from '@/components/Panel.vue'
-import SectionHeader from './components/SectionHeader.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
+import Content from '@/components/Content.vue'
+import Actions from '@/components/Actions.vue'
+import Button from '@/components/Button.vue'
+import RadioGroup from './components/RadioGroup.vue'
 import RadioButton from './components/RadioButton.vue'
 import TextInput from './components/TextInput.vue'
 import DropdownInput from './components/DropdownInput.vue'
-import ActionsPanel from '@/components/ActionsPanel.vue'
-import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'
 import { useNetworks } from '@/composables/networks'
@@ -96,26 +105,9 @@ async function forget() {
 </script>
 
 <style lang="postcss" scoped>
-.content {
-  margin-top: 24px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-
-  .options {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .actions {
-    margin-top: 24px;
-  }
-
-  .ssid.loading ::v-deep(input) {
-    background: url('@/assets/wifi.svg');
-    background-repeat: no-repeat;
-    background-position: right;
-  }
+.ssid.loading ::v-deep(input) {
+  background: url('@/assets/wifi.svg');
+  background-repeat: no-repeat;
+  background-position: right;
 }
 </style>

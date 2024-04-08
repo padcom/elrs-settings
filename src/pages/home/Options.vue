@@ -11,7 +11,7 @@
       </span>
     </p>
 
-    <div v-if="config?.config" class="inputs">
+    <Content v-if="config?.config">
       <TextInput v-model="bindingPhrase"
         label="Binding Phrase" placeholder="Binding Phrase"
       />
@@ -35,37 +35,38 @@
         label="AirPort UART baud"
       />
 
-      <ActionsPanel>
+      <Actions>
         <Button type="primary" @click="save">
           Save
         </Button>
         <Button v-if="config.options.customised" type="danger" small @click="reset">
           Reset runtime options to defaults
         </Button>
-      </ActionsPanel>
-    </div>
+      </Actions>
+    </Content>
   </Panel>
 </template>
 
 <script lang="ts" setup>
 import { computed, ref, watch } from 'vue'
 
-import SectionHeader from './components/SectionHeader.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
 import Panel from '@/components/Panel.vue'
+import Content from '@/components/Content.vue'
 import Tag from './components/Tag.vue'
 import TextInput from './components/TextInput.vue'
 import ArrayInput from './components/ArrayInput.vue'
 import NumericInput from './components/NumericInput.vue'
 import Checkbox from './components/Checkbox.vue'
-import ActionsPanel from '@/components/ActionsPanel.vue'
+import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
 
 import { useConfig } from '@/composables/config'
 import { useBuildOptions } from '@/composables/build'
 import { useAlert } from '@/composables/alert'
-import { isEmptyUID, uid } from '@/lib/uid'
 import { useHardware } from '@/composables/hardware'
 import { useOptions } from '@/composables/options'
+import { isEmptyUID, uid } from '@/lib/uid'
 
 const bindingPhrase = ref('')
 const { config, originalUID, originalUIDType } = useConfig()
@@ -154,12 +155,3 @@ const uidLabel = computed(() => {
   }
 })
 </script>
-
-<style lang="postcss" scoped>
-.inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  margin-top: 16px;
-}
-</style>

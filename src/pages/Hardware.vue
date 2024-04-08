@@ -475,10 +475,10 @@
       />
     </Section>
 
-    <ActionsPanel>
+    <Actions>
       <Button @click="save">Save target configuration</Button>
       <Button type="tertiary" @click="reset">Reset target configuration</Button>
-    </ActionsPanel>
+    </Actions>
   </div>
 </template>
 
@@ -502,7 +502,7 @@ import PowerSelect from './hardware/PowerSelect.vue'
 import ScreenTypeSelect from './hardware/ScreenTypeSelect.vue'
 import PowerLevelControlSelect from './hardware/PowerLevelControlSelect.vue'
 import VBatAttenuationSelect from './hardware/VBatAttenuationSelect.vue'
-import ActionsPanel from '@/components/ActionsPanel.vue'
+import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
 import { useAlert } from '@/composables/alert'
 

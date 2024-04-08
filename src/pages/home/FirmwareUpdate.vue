@@ -8,12 +8,14 @@
       <a href="/firmware.bin" title="Click to download firmware">currently running firmware</a>.
     </p>
 
-    <div class="upload">
-      <UploadButton @upload="upload($event)">
-        Flash firmware file
-      </UploadButton>
-      <progress ref="progressBar" value="0" max="100" />
-    </div>
+    <Content>
+      <Actions>
+        <UploadButton @upload="upload($event)">
+          Flash firmware file
+        </UploadButton>
+        <progress ref="progressBar" value="0" max="100" />
+      </Actions>
+    </Content>
   </Panel>
 </template>
 
@@ -21,7 +23,9 @@
 import { ref } from 'vue'
 
 import Panel from '@/components/Panel.vue'
-import SectionHeader from './components/SectionHeader.vue'
+import SectionHeader from '@/components/SectionHeader.vue'
+import Content from '@/components/Content.vue'
+import Actions from '@/components/Actions.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
 import { useBuildOptions } from '@/composables/build'
@@ -79,14 +83,7 @@ async function upload(files: FileList) {
 </script>
 
 <style lang="postcss" scoped>
-.upload {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  margin-top: 24px;
-
-  & progress {
-    width: 100%;
-  }
+progress {
+  width: 100%;
 }
 </style>
