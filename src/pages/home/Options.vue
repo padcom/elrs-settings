@@ -46,6 +46,9 @@
       <Button v-if="config.options.customised" type="danger" small @click="reset">
         Reset runtime options to defaults
       </Button>
+      <Button type="tertiary" small @click="reboot">
+        Reboot
+      </Button>
     </Actions>
   </Panel>
 </template>
