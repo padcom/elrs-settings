@@ -9,7 +9,7 @@ export const useHardware = singleton(() => {
   const hardware = ref<any>()
 
   async function load() {
-    const response = await http(`hardware.json`)
+    const response = await http(`/hardware.json`)
     if (response.ok) {
       hardware.value = await response.json()
     } else {

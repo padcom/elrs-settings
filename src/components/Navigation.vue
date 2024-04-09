@@ -1,12 +1,30 @@
 <template>
   <ul class="navigation">
-    <li><RouterLink to="/">Settings</RouterLink></li>
-    <li><RouterLink to="/hardware">Hardware</RouterLink></li>
+    <li>
+      <RouterLink :to="target('/')">
+        Settings
+      </RouterLink>
+    </li>
+    <li>
+      <RouterLink :to="target('/hardware')">
+        Hardware
+      </RouterLink>
+    </li>
   </ul>
 </template>
 
 <script lang="ts" setup>
-import { RouterLink } from 'vue-router'
+import { RouterLink, type RouteLocationRaw } from 'vue-router'
+import { getBaseURL } from '@/lib/http-client'
+
+function target(path: string) {
+  const result: RouteLocationRaw = { path }
+  const baseUrl = getBaseURL()
+
+  if (baseUrl) result.query = { 'base-url': baseUrl }
+
+  return result
+}
 </script>
 
 <style lang="postcss" scoped>
