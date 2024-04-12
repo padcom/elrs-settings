@@ -2,19 +2,17 @@
   <header>
     <Logo />
     <h1>ExpressLRS</h1>
-    <h2>{{ config?.config.product_name }}</h2>
-    <h2><strong>Firmware Rev.</strong> {{ version }} {{ config?.config.reg_domain }}</h2>
+    <h2>{{ productName }}</h2>
+    <h2><strong>Firmware Rev.</strong> {{ version }} {{ regDomain }}</h2>
   </header>
 </template>
 
 <script lang="ts" setup>
-import Logo from '@/assets/logo.svg?component'
+import Logo from '@/assets/logo.svg'
 
-import { useBuildOptions } from '@/composables/build'
-import { useConfig } from '@/composables/config'
+import { useTarget } from '@/composables/target'
 
-const { version } = useBuildOptions()
-const { config } = useConfig()
+const { productName, version, regDomain } = useTarget()
 </script>
 
 <style lang="postcss" scoped>

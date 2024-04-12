@@ -22,10 +22,13 @@
     "@vue/tsconfig": "^0.5.1",
     "@vueuse/core": "^10.7.2",
     "autoprefixer": "^10.4.17",
+    "body-parser": "^1.20.2",
     "express": "^4.19.2",
     "nodemon": "^3.1.0",
+    "rollup-plugin-gzip": "^3.1.2",
     "ts-node": "^10.9.2",
     "typescript": ">= 3.3.0 < 5.2.0",
+    "uuid": "^9.0.1",
     "vite": "^5.0.12",
     "vite-plugin-eslint": "^1.8.1",
     "vite-svg-loader": "^5.1.0",
@@ -37,9 +40,9 @@
       "@padcom/eslint-config-vue"
     ],
     "rules": {
-      "max-len": ["error", 145],
       "@typescript-eslint/no-non-null-assertion": 0,
-      "require-atomic-updates": 0
+      "require-atomic-updates": 0,
+      "no-extra-parens": 0
     }
   },
   "homepage": "https://github.com/padcom/frontend#readme",

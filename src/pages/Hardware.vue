@@ -155,7 +155,9 @@
       />
       <ArrayInput v-model="hardware.power_values2"
         label="Secondary Power Value(s)"
-        description="Comma-separated list of values that set the power output (if using a DAC then these set the Semtech power output)"
+        description="
+          Comma-separated list of values that set the power output (if using a DAC then these set the Semtech power output)
+        "
       />
       <ArrayInput v-model="hardware.power_values_dual"
         label="Dual Power Value(s)"
@@ -180,7 +182,7 @@
       />
     </Section>
 
-    <Section v-if="isTx" name="Analog Joystick">
+    <Section v-if="isTX" name="Analog Joystick">
       <AnalogInput v-model="hardware.joystick"
         label="ADC pin"
         description="Analog Input (3.3V max) use to read joystick direction using a resistor network"
@@ -191,7 +193,7 @@
       />
     </Section>
 
-    <Section v-if="isTx" name="Digital Joystick">
+    <Section v-if="isTX" name="Digital Joystick">
       <DigitalInput v-model="hardware.five_way1"
         label="Pin 1"
         description="These 3 pins create a binary value for the joystick direction"
@@ -219,7 +221,7 @@
         label="RGB indexes for Status"
         description="Indexes into the 'string' of RGB LEDs (if empty then only LED at 0 is used)"
       />
-      <ArrayInput v-if="!isTx" v-model="hardware.ledidx_rgb_vtx"
+      <ArrayInput v-if="isRX" v-model="hardware.ledidx_rgb_vtx"
         label="RGB indexes for VTX Status"
         description="Indexes into the 'string' of RGB LEDs (if empty then no VTX status)"
       />
@@ -278,7 +280,7 @@
       />
     </Section>
 
-    <Section v-if="isTx" name="OLED/TFT (Crotch TV)">
+    <Section v-if="isTX" name="OLED/TFT (Crotch TV)">
       <ScreenTypeSelect v-model="hardware.screen_type"
         label="Screen type"
         description="Type of OLED connected"
@@ -369,7 +371,9 @@
       />
       <ArrayInput v-model="hardware.misc_fan_speeds"
         label="Fan PWM output values"
-        description="If the fan is PWM controlled, then this is the list of values for the PWM output for the matching power output levels"
+        description="
+          If the fan is PWM controlled, then this is the list of values for the PWM output for the matching power output levels
+        "
       />
       <DigitalInput v-model="hardware.misc_fan_tacho"
         label="Fan TACHO pin"
@@ -389,14 +393,14 @@
       />
     </Section>
 
-    <Section v-if="!isTx" name="PWM">
+    <Section v-if="isRX" name="PWM">
       <PwmArrayInput v-model="hardware.pwm_outputs"
         label="PWM output pins"
         description="Comma-separated list of pins used for PWM output"
       />
     </Section>
 
-    <Section v-if="!isTx" name="VBat">
+    <Section v-if="isRX" name="VBat">
       <AnalogInput v-model="hardware.vbat"
         label="VBat pin"
         description="Analog input pin for reading VBAT voltage (1V max on 8285, 3.3V max on ESP32)"
@@ -417,10 +421,13 @@
       />
     </Section>
 
-    <Section v-if="!isTx" name="SPI VTX">
+    <Section v-if="isRX" name="SPI VTX">
       <PwmOutput v-model="hardware.vtx_amp_pwm"
         label="RF amp PWM pin"
-        description="Set the power output level of the VTX PA (value is calculated based on power and frequency using VPD interpolation values)"
+        description="
+          Set the power output level of the VTX PA (value is calculated based on power and frequency using
+          VPD interpolation values)
+        "
       />
       <AnalogInput v-model="hardware.vtx_amp_vpd"
         label="RF amp VPD pin"
@@ -464,7 +471,7 @@
       />
     </Section>
 
-    <Section v-if="!isTx" name="I2C">
+    <Section v-if="isRX" name="I2C">
       <DigitalOutput v-model="hardware.i2c_scl"
         label="SCL pin"
         description="I2C clock pin used to communicate with I2C devices"
@@ -484,8 +491,6 @@
 
 <script lang="ts" setup>
 import { onMounted } from 'vue'
-import { useBuildOptions } from '@/composables/build'
-import { useHardware } from '@/composables/hardware'
 
 import Section from './hardware/Section.vue'
 import AnalogInput from './hardware/AnalogInput.vue'
@@ -504,10 +509,14 @@ import PowerLevelControlSelect from './hardware/PowerLevelControlSelect.vue'
 import VBatAttenuationSelect from './hardware/VBatAttenuationSelect.vue'
 import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
+
+import { useTarget } from '@/composables/target'
+import { useHardware } from '@/composables/hardware'
 import { useAlert } from '@/composables/alert'
 
-const { hardware, load, save: saveHardware, reset: resetHardware, reboot } = useHardware()
-const { isTx } = useBuildOptions()
+const { reboot } = useTarget()
+const { hardware, load, save: saveHardware, reset: resetHardware } = useHardware()
+const { isTX, isRX } = useTarget()
 const { question, info, error } = useAlert()
 
 onMounted(load)

@@ -1,9 +1,8 @@
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
-import type { Config } from '@/types'
 import { singleton } from '@/lib/singleton'
-import { http } from '@/lib/http-client'
 import { useOptions } from './options'
+import { ConfigAPI, type Config } from '@/api'
 
 // eslint-disable-next-line max-lines-per-function
 export const useConfig = singleton(() => {
@@ -11,8 +10,11 @@ export const useConfig = singleton(() => {
   const originalUID = ref<number[]>([])
   const originalUIDType = ref<string>('Flashed')
 
+  const pwm = computed(() => config.value?.config.pwm || [])
+
   async function load() {
-    const response = await http(`/config`)
+    const response = await new ConfigAPI().load()
+
     if (response.ok) {
       config.value = await response.json()
       originalUID.value = config.value?.config.uid || []
@@ -25,7 +27,8 @@ export const useConfig = singleton(() => {
   }
 
   async function download() {
-    const response = await http(`/config?export`)
+    const response = await new ConfigAPI().download()
+
     if (response.ok) {
       return {
         status: 'ok',
@@ -41,5 +44,20 @@ export const useConfig = singleton(() => {
     }
   }
 
-  return { config, load, download, originalUID, originalUIDType }
+  async function save() {
+    if (!config.value) {
+      return {
+        status: 'error',
+        msg: 'No config loaded',
+      }
+    }
+    const response = await new ConfigAPI().save(config.value.config)
+
+    return {
+      status: response.ok ? 'ok' : 'error',
+      msg: response.statusText,
+    }
+  }
+
+  return { config, pwm, load, save, download, originalUID, originalUIDType }
 })

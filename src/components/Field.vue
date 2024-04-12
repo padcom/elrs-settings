@@ -1,6 +1,6 @@
 <template>
   <div class="field">
-    <label :for="id">{{ label }}</label>
+    <label v-if="label" :for="id">{{ label }}</label>
     <slot name="aux" />
     <slot :id="id" />
   </div>
@@ -10,7 +10,7 @@
 import { uniqueId } from '@/composables/id'
 
 defineProps({
-  label: { type: String, default: 'Label' },
+  label: { type: String, default: '' },
 })
 
 const id = uniqueId()
@@ -31,19 +31,21 @@ const id = uniqueId()
   & ::v-deep(input),
   & ::v-deep(select) {
     border: none;
-    border-bottom: solid 1px rgba(0,0,0,0.26);
+    border-bottom: solid 1px var(--clr-border-bottom);
     font-size: 16px;
     outline: none;
     margin-bottom: 2px;
     background-color: white;
+    width: 100%;
   }
 
   & ::v-deep(input) {
-    padding-bottom: 2px;
+    padding-bottom: 1px;
   }
 
   & ::v-deep(select) {
     padding-bottom: 0px;
+    padding-top: 1px;
   }
 
   /* autoprefixer: ignore next */

@@ -2,7 +2,7 @@
   <Field :label="label">
     <template #aux><slot /></template>
     <template #default="{ id }">
-      <input :id="id" v-model="value" v-bind="$attrs">
+      <input :id="id" v-model="value" v-bind="$attrs" type="number">
     </template>
   </Field>
 </template>
@@ -11,8 +11,8 @@
 import Field from './Field.vue'
 
 defineProps({
-  label: { type: String, default: 'Label' },
+  label: { type: String, default: '' },
 })
 
-const value = defineModel<string>({ default: '' })
+const value = defineModel<number>()
 </script>

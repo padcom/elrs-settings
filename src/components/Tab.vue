@@ -5,18 +5,19 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted } from 'vue'
+import { v4 as uuid } from 'uuid'
+import { onMounted, onBeforeUnmount } from 'vue'
 
 import { useTabs, type Tab } from './tabs'
 
 const props = defineProps({
-  id: { type: String, default: () => crypto.randomUUID() },
+  id: { type: String, default: () => uuid() },
   title: { type: String, default: 'Tab' },
 })
 
 const emit = defineEmits<{(e: 'selected', tab: Tab): void}>()
 
-const { addTab, selectedTab } = useTabs()
+const { addTab, removeTab, selectedTab } = useTabs()
 
 function onTabSelected(tab: Tab) {
   emit('selected', tab)
@@ -24,6 +25,10 @@ function onTabSelected(tab: Tab) {
 
 onMounted(() => {
   addTab({ title: props.title, id: props.id, onTabSelected })
+})
+
+onBeforeUnmount(() => {
+  removeTab({ title: props.title, id: props.id, onTabSelected })
 })
 </script>
 

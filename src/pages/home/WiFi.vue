@@ -22,10 +22,10 @@
     </Content>
 
     <Actions>
-      <Button v-if="action === 'new-network'" :disabled="!ssid || !password" @click="connect(ssid, password, false)">
+      <Button v-if="action === 'new-network'" :disabled="!ssid || password.length < 8" @click="connect(ssid, password, false)">
         Confirm
       </Button>
-      <Button v-if="action === 'one-time'" :disabled="!ssid || !password" @click="connect(ssid, password, true)">
+      <Button v-if="action === 'one-time'" :disabled="!ssid || password.length < 8" @click="connect(ssid, password, true)">
         Confirm
       </Button>
       <Button v-if="action === 'start-ap'" @click="accessPoint()">
@@ -46,10 +46,10 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import Content from '@/components/Content.vue'
 import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
-import RadioGroup from './components/RadioGroup.vue'
-import RadioButton from './components/RadioButton.vue'
-import TextInput from './components/TextInput.vue'
-import DropdownInput from './components/DropdownInput.vue'
+import RadioGroup from '@/components/RadioGroup.vue'
+import RadioButton from '@/components/RadioButton.vue'
+import TextInput from '@/components/TextInput.vue'
+import DropdownInput from '@/components/DropdownInput.vue'
 
 import { useConfig } from '@/composables/config'
 import { useNetworks } from '@/composables/networks'
@@ -106,7 +106,7 @@ async function forget() {
 
 <style lang="postcss" scoped>
 .ssid.loading ::v-deep(input) {
-  background: url('@/assets/wifi.svg');
+  background: url('./wifi.svg');
   background-repeat: no-repeat;
   background-position: right;
 }

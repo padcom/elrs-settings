@@ -5,13 +5,16 @@
       This form <strong>overrides</strong> the options provided when the firmware
       was flashed. These changes will persist across reboots, but
       <strong>will be reset</strong> when the firmware is reflashed.
-      <span v-if="isTx">
+      <span v-if="isTX">
         Note: The Binding phrase is <strong>not</strong> remembered, it is a temporary
         field used to generate the binding UID.
       </span>
     </p>
 
     <Content v-if="config?.config">
+      <Checkbox v-if="isRX" v-model="config.options['vbind']"
+        label="Never store bind information across reboots (volatile binding)"
+      />
       <TextInput v-model="bindingPhrase"
         label="Binding Phrase"
         placeholder="Binding Phrase"
@@ -21,6 +24,9 @@
       >
         <Tag :fg="uidLabel.fg" :bg="uidLabel.bg">{{ uidLabel.type }}</Tag>
       </ArrayInput>
+      <DomainSelect v-if="hasSubGhz" v-model="config.options['domain']"
+        label="Regulatory domain"
+      />
       <NumericInput v-model="config.options['wifi-on-interval']"
         label="WiFi 'auto on' interval in seconds (leave blank to disable)"
         placeholder="Disabled"
@@ -31,10 +37,20 @@
       <NumericInput v-model="config.options['fan-runtime']"
         label="Fan runtime (s)"
       />
+      <NumericInput v-if="isRX" v-model.number="config.options['rcvr-uart-baud']"
+        label="UART baud"
+        size="7"
+      />
+      <Checkbox v-if="isRX" v-model="config.options['lock-on-first-connection']"
+        label="Lock on first connection"
+      />
+      <Checkbox v-if="isTX" v-model="config.options['unlock-higher-power']"
+        label="Unlock higher power"
+      />
       <Checkbox v-model="config.options['is-airport']"
         label="Use as AirPort Serial device"
       />
-      <NumericInput v-if="config.options['is-airport']" v-model="config.options['airport-uart-baud']"
+      <NumericInput v-if="isTX && config.options['is-airport']" v-model="config.options['airport-uart-baud']"
         label="AirPort UART baud"
       />
     </Content>
@@ -59,25 +75,26 @@ import { computed, ref, watch } from 'vue'
 import SectionHeader from '@/components/SectionHeader.vue'
 import Panel from '@/components/Panel.vue'
 import Content from '@/components/Content.vue'
-import Tag from './components/Tag.vue'
-import TextInput from './components/TextInput.vue'
-import ArrayInput from './components/ArrayInput.vue'
-import NumericInput from './components/NumericInput.vue'
-import Checkbox from './components/Checkbox.vue'
+import Tag from '@/components/Tag.vue'
+import TextInput from '@/components/TextInput.vue'
+import ArrayInput from '@/components/ArrayInput.vue'
+import NumericInput from '@/components/NumericInput.vue'
+import Checkbox from '@/components/Checkbox.vue'
 import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
 
+import DomainSelect from './components/DomainSelect.vue'
+
 import { useConfig } from '@/composables/config'
-import { useBuildOptions } from '@/composables/build'
+import { useTarget } from '@/composables/target'
 import { useAlert } from '@/composables/alert'
-import { useHardware } from '@/composables/hardware'
 import { useOptions } from '@/composables/options'
 import { isEmptyUID, uid } from '@/lib/uid'
 
 const bindingPhrase = ref('')
 const { config, originalUID, originalUIDType } = useConfig()
 const { question, error, info } = useAlert()
-const { reboot } = useHardware()
+const { isRX, isTX, hasSubGhz, reboot } = useTarget()
 const { save: saveOptions, reset: resetOptions } = useOptions()
 
 watch(bindingPhrase, newValue => {
@@ -111,8 +128,6 @@ async function reset() {
   }
 }
 
-const { isTx } = useBuildOptions()
-
 // eslint-disable-next-line max-lines-per-function, complexity
 const uidLabel = computed(() => {
   const uidtype = config.value?.config.uidtype || ''
@@ -132,7 +147,8 @@ const uidLabel = computed(() => {
     return {
       bg: '#689F38', fg: 'black',
       type: uidtype,
-      description: 'The binding UID has been generated from a binding phrase previously entered into the "binding phrase" field above',
+      description:
+        'The binding UID has been generated from a binding phrase previously entered into the "binding phrase" field above',
     }
   } else if (uidtype === 'Modified') {
     return {

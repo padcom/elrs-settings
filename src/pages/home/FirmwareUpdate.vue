@@ -2,7 +2,7 @@
   <Panel>
     <SectionHeader>Firmware Update</SectionHeader>
     <p>
-      Choose a file to update module firmware. Select the correct .bin file for {{ platform }}
+      Choose a file to update module firmware. Select the correct .bin file for {{ target }}
       otherwise a bad flash may occur. If this happens you will need to recover via USB/Serial.
       You may also download the
       <a href="/firmware.bin" title="Click to download firmware">currently running firmware</a>.
@@ -25,13 +25,13 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import Actions from '@/components/Actions.vue'
 import UploadButton from '@/components/UploadButton.vue'
 
-import { useBuildOptions } from '@/composables/build'
-import { http } from '@/lib/http-client'
+import { useTarget } from '@/composables/target'
 import { uploadFile } from '@/lib/file-upload'
 import { ticker } from '@/lib/ticker'
 import { useAlert } from '@/composables/alert'
+import { FirmwareAPI } from '@/api'
 
-const { platform } = useBuildOptions()
+const { target } = useTarget()
 const progressBar = ref<HTMLProgressElement>()
 
 interface FileUploadResult {
@@ -62,9 +62,7 @@ async function upload(files: FileList) {
         case 'mismatch':
           // eslint-disable-next-line max-depth
           if (await question('Targets Mismatch', result.msg || 'What do we do now?', 'Flash anyway', 'Cancel') !== 'cancel') {
-            const body = new FormData()
-            body.append('action', 'confirm')
-            await http(`/forceupdate`, { method: 'POST', body })
+            await new FirmwareAPI().forceUpdate()
           }
           break
         case 'error':

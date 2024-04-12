@@ -73,18 +73,19 @@ import SectionHeader from '@/components/SectionHeader.vue'
 import Content from '@/components/Content.vue'
 import Actions from '@/components/Actions.vue'
 import Button from '@/components/Button.vue'
-import TextInput from './components/TextInput.vue'
-import ArrayInput from './components/ArrayInput.vue'
-import Select from './components/Select.vue'
+import TextInput from '@/components/TextInput.vue'
+import ArrayInput from '@/components/ArrayInput.vue'
+import Select from '@/components/Select.vue'
 
 import { useAlert } from '@/composables/alert'
 import { useProxySettings } from '@/composables/proxy'
-import { useHardware } from '@/composables/hardware'
+import { useTarget } from '@/composables/target'
+
 import { uid } from '@/lib/uid'
 
 const { info, question, error } = useAlert()
-const { proxy, load, save: saveProxySettings, reset: resetProxySettings, originalUID } = useProxySettings()
-const { reboot } = useHardware()
+const { proxy, load: loadProxySettings, save: saveProxySettings, reset: resetProxySettings, originalUID } = useProxySettings()
+const { reboot } = useTarget()
 const bindingPhrase = ref('')
 
 watch(bindingPhrase, newValue => {
@@ -97,7 +98,7 @@ watch(bindingPhrase, newValue => {
   }
 })
 
-onMounted(load)
+onMounted(loadProxySettings)
 
 async function save() {
   const result = await saveProxySettings()
